@@ -1,0 +1,121 @@
+@use '../tokens' as *;
+@use '../mixins' as *;
+
+.dock-panel--history {
+  flex: 0 0 158px;
+  min-height: 118px;
+  max-height: 220px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid $border;
+  background: $bg-panel;
+}
+
+.history-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-4;
+  padding: $space-3 $space-5;
+  border-bottom: 1px solid $border;
+  background: $bg-chrome;
+}
+
+.history-head-title {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  min-width: 0;
+  color: $fg;
+  font-size: 13px;
+  font-weight: $fw-bold;
+
+  .icon {
+    width: 13px;
+    height: 13px;
+  }
+}
+
+.history-head-count {
+  color: $fg-2;
+  font-size: 12px;
+  font-weight: $fw-bold;
+  font-variant-numeric: tabular-nums;
+}
+
+.history-list {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: $bg-panel;
+}
+
+.history-row {
+  @include button-reset;
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: $space-3;
+  width: 100%;
+  min-height: 30px;
+  padding: $space-2 $space-5;
+  border-bottom: 1px solid $border;
+  color: $fg;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    background: $bg-hover;
+  }
+
+  &:focus-visible {
+    outline: 1px solid $accent;
+    outline-offset: -1px;
+  }
+
+  &.is-active {
+    color: $white;
+    background: $bg-selected;
+  }
+
+  &.is-future:not(.is-active) {
+    color: $fg-3;
+  }
+}
+
+.history-row-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+
+  .icon {
+    width: 13px;
+    height: 13px;
+  }
+}
+
+.history-row-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-row-step {
+  color: inherit;
+  font-size: 11px;
+  font-weight: $fw-bold;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.72;
+}
+
+.history-empty {
+  padding: $space-5;
+  color: $fg-2;
+  font-size: 12px;
+}

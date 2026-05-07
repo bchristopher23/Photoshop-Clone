@@ -1,0 +1,27 @@
+{
+  "name": "photoshop",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "styles:build": "sass web/styles/index.scss web/styles.css --style=expanded --source-map --load-path=node_modules",
+    "styles:watch": "sass --watch web/styles/index.scss:web/styles.css --source-map --load-path=node_modules",
+    "dev": "concurrently -n server,styles -c green,cyan \"node scripts/tauri-dev-server.mjs\" \"bun run styles:watch\"",
+    "start": "node scripts/tauri-dev-server.mjs",
+    "doctor": "node scripts/doctor.mjs",
+    "desktop:dev": "bun run styles:build && tauri dev --config src-tauri/tauri.conf.json",
+    "desktop:build": "bun run styles:build && tauri build --config src-tauri/tauri.conf.json",
+    "tauri:dev": "bun run desktop:dev",
+    "tauri:build": "bun run desktop:build",
+    "postinstall": "bun run styles:build"
+  },
+  "devDependencies": {
+    "@fontsource/montserrat": "^5.2.8",
+    "@tauri-apps/cli": "^2.0.0",
+    "concurrently": "^9.2.1",
+    "sass": "^1.99.0"
+  },
+  "dependencies": {
+    "lucide": "^1.8.0"
+  }
+}

@@ -1,0 +1,245 @@
+// Design tokens — single source of truth for colors, typography, spacing, sizes.
+//
+// Pattern: each token has three lines:
+//   1. Private Sass var `$_foo` holds the raw value (used only in this file).
+//   2. A `:root` rule emits `--foo: #{$_foo};` so the value is a CSS custom property
+//      at runtime.
+//   3. A public Sass var `$foo: var(--foo)` is what every component imports and uses.
+//
+// Components never reference hex values, `$_foo`, or `var(--foo)` directly — only `$foo`.
+// Sass-time math uses `$_foo`. Runtime math uses `calc($foo * 2)` which compiles to
+// `calc(var(--foo) * 2)`.
+
+// ──────────────────────────────────────────────────────────────────────────
+// Raw values
+// ──────────────────────────────────────────────────────────────────────────
+
+// Surface colors
+$_bg-app:       #2b2b2b;
+$_bg-chrome:    #393939;
+$_bg-panel:     #323232;
+$_bg-panel-2:   #3c3c3c;
+$_bg-input:     #262626;
+$_bg-hover:     #4a4a4a;
+$_bg-active:    #505050;
+$_bg-selected:  #3b82c4;
+
+// Foreground
+$_fg:           #dcdcdc;
+$_fg-2:         #a0a0a0;
+$_fg-3:         #777777;
+$_white:        #ffffff;
+$_black:        #000000;
+
+// Borders
+$_border:       #1e1e1e;
+$_border-2:     #4a4a4a;
+
+// Semantic
+$_accent:       #3b82c4;
+$_accent-hover: #5397d5;
+$_success:      #64b17c;
+$_warning:      #eb7e3f;
+$_danger:       #e83e36;
+
+// Status / chip tints — used for mixed-value indicators and error chrome.
+$_mixed-fg:      #ffd889;   // amber text on `.is-mixed` indicators
+$_mixed-fg-soft: #ffe1a6;   // softer amber variant
+$_mask-fg:       #d7de84;   // layer mask chip
+$_clip-fg:       #8fd6ff;   // layer clipping-mask chip
+$_mask-fg-soft:  #f1df9a;   // brighter mask text when chip is active
+$_error-border:  #653434;
+$_error-chrome:  #6b3c3c;
+$_error-fg:      #ffd0d0;
+
+// Typography
+$_font-family:  'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+$_fw-normal:    500;
+$_fw-bold:      600;
+$_fs-xs:        11px;
+$_fs-sm:        12px;
+$_fs-base:      13px;
+$_fs-lg:        15px;
+
+// Spacing scale
+$_space-1:  2px;
+$_space-2:  4px;
+$_space-3:  6px;
+$_space-4:  8px;
+$_space-5:  10px;
+$_space-6:  12px;
+$_space-7:  16px;
+$_space-8:  24px;
+
+// Radii
+$_radius-sm:  2px;
+$_radius-md:  3px;
+$_radius-lg:  6px;
+
+// Layout sizes
+$_h-menubar:      24px;
+$_h-tabbar:       30px;
+$_h-optionsbar:   34px;
+$_h-statusbar:    24px;
+$_w-tool-rail:    74px;
+$_w-inspector:    288px;
+$_h-control-sm:   22px;
+$_h-control-md:   24px;
+$_h-button-sm:    26px;
+$_h-button-md:    32px;
+$_h-button-lg:    36px;
+$_h-menu-item:    30px;
+
+// Shadows
+$_shadow-float:  0 8px 16px rgba(0, 0, 0, 0.4);
+$_shadow-menu:   0 10px 28px rgba(0, 0, 0, 0.45);
+
+// ──────────────────────────────────────────────────────────────────────────
+// CSS custom property emission
+// ──────────────────────────────────────────────────────────────────────────
+
+:root {
+  --bg-app:       #{$_bg-app};
+  --bg-chrome:    #{$_bg-chrome};
+  --bg-panel:     #{$_bg-panel};
+  --bg-panel-2:   #{$_bg-panel-2};
+  --bg-input:     #{$_bg-input};
+  --bg-hover:     #{$_bg-hover};
+  --bg-active:    #{$_bg-active};
+  --bg-selected:  #{$_bg-selected};
+
+  --fg:    #{$_fg};
+  --fg-2:  #{$_fg-2};
+  --fg-3:  #{$_fg-3};
+  --white: #{$_white};
+  --black: #{$_black};
+
+  --border:    #{$_border};
+  --border-2:  #{$_border-2};
+
+  --accent:        #{$_accent};
+  --accent-hover:  #{$_accent-hover};
+  --success:       #{$_success};
+  --warning:       #{$_warning};
+  --danger:        #{$_danger};
+
+  --mixed-fg:       #{$_mixed-fg};
+  --mixed-fg-soft:  #{$_mixed-fg-soft};
+  --mask-fg:        #{$_mask-fg};
+  --mask-fg-soft:   #{$_mask-fg-soft};
+  --clip-fg:        #{$_clip-fg};
+  --error-border:   #{$_error-border};
+  --error-chrome:   #{$_error-chrome};
+  --error-fg:       #{$_error-fg};
+
+  --font-family: #{$_font-family};
+  --fw-normal:   #{$_fw-normal};
+  --fw-bold:     #{$_fw-bold};
+  --fs-xs:       #{$_fs-xs};
+  --fs-sm:       #{$_fs-sm};
+  --fs-base:     #{$_fs-base};
+  --fs-lg:       #{$_fs-lg};
+
+  --space-1:  #{$_space-1};
+  --space-2:  #{$_space-2};
+  --space-3:  #{$_space-3};
+  --space-4:  #{$_space-4};
+  --space-5:  #{$_space-5};
+  --space-6:  #{$_space-6};
+  --space-7:  #{$_space-7};
+  --space-8:  #{$_space-8};
+
+  --radius-sm:  #{$_radius-sm};
+  --radius-md:  #{$_radius-md};
+  --radius-lg:  #{$_radius-lg};
+
+  --h-menubar:     #{$_h-menubar};
+  --h-tabbar:      #{$_h-tabbar};
+  --h-optionsbar:  #{$_h-optionsbar};
+  --h-statusbar:   #{$_h-statusbar};
+  --w-tool-rail:   #{$_w-tool-rail};
+  --w-inspector:   #{$_w-inspector};
+  --h-control-sm:  #{$_h-control-sm};
+  --h-control-md:  #{$_h-control-md};
+  --h-button-sm:   #{$_h-button-sm};
+  --h-button-md:   #{$_h-button-md};
+  --h-button-lg:   #{$_h-button-lg};
+  --h-menu-item:   #{$_h-menu-item};
+
+  --shadow-float:  #{$_shadow-float};
+  --shadow-menu:   #{$_shadow-menu};
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Public Sass variables (what components use)
+// ──────────────────────────────────────────────────────────────────────────
+
+$bg-app:       var(--bg-app);
+$bg-chrome:    var(--bg-chrome);
+$bg-panel:     var(--bg-panel);
+$bg-panel-2:   var(--bg-panel-2);
+$bg-input:     var(--bg-input);
+$bg-hover:     var(--bg-hover);
+$bg-active:    var(--bg-active);
+$bg-selected:  var(--bg-selected);
+
+$fg:    var(--fg);
+$fg-2:  var(--fg-2);
+$fg-3:  var(--fg-3);
+$white: var(--white);
+$black: var(--black);
+
+$border:    var(--border);
+$border-2:  var(--border-2);
+
+$accent:        var(--accent);
+$accent-hover:  var(--accent-hover);
+$success:       var(--success);
+$warning:       var(--warning);
+$danger:        var(--danger);
+
+$mixed-fg:       var(--mixed-fg);
+$mixed-fg-soft:  var(--mixed-fg-soft);
+$mask-fg:        var(--mask-fg);
+$mask-fg-soft:   var(--mask-fg-soft);
+$clip-fg:        var(--clip-fg);
+$error-border:   var(--error-border);
+$error-chrome:   var(--error-chrome);
+$error-fg:       var(--error-fg);
+
+$font-family: var(--font-family);
+$fw-normal:   var(--fw-normal);
+$fw-bold:     var(--fw-bold);
+$fs-xs:       var(--fs-xs);
+$fs-sm:       var(--fs-sm);
+$fs-base:     var(--fs-base);
+$fs-lg:       var(--fs-lg);
+
+$space-1:  var(--space-1);
+$space-2:  var(--space-2);
+$space-3:  var(--space-3);
+$space-4:  var(--space-4);
+$space-5:  var(--space-5);
+$space-6:  var(--space-6);
+$space-7:  var(--space-7);
+$space-8:  var(--space-8);
+
+$radius-sm:  var(--radius-sm);
+$radius-md:  var(--radius-md);
+$radius-lg:  var(--radius-lg);
+
+$h-menubar:     var(--h-menubar);
+$h-tabbar:      var(--h-tabbar);
+$h-optionsbar:  var(--h-optionsbar);
+$h-statusbar:   var(--h-statusbar);
+$w-tool-rail:   var(--w-tool-rail);
+$w-inspector:   var(--w-inspector);
+$h-control-sm:  var(--h-control-sm);
+$h-control-md:  var(--h-control-md);
+$h-button-sm:   var(--h-button-sm);
+$h-button-md:   var(--h-button-md);
+$h-button-lg:   var(--h-button-lg);
+$h-menu-item:   var(--h-menu-item);
+
+$shadow-float:  var(--shadow-float);
+$shadow-menu:   var(--shadow-menu);

@@ -1,0 +1,30 @@
+@use 'tokens' as *;
+
+// The app shell is a vertical stack: menubar, main region (home-screen OR
+// editor), status bar. Editor-local chrome such as options and tabs lives
+// inside `.workspace`, so the tool rail can run from the menubar to status bar.
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+// Main editor region (tool rail | canvas workspace | inspector).
+.app-main {
+  display: grid;
+  grid-template-columns: $w-tool-rail minmax(0, 1fr) 4px var(--inspector-width, #{$w-inspector});
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  &[hidden] { display: none; }
+}
+
+// Home screen fills the remaining vertical space when it's the active view.
+.home-screen {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  &[hidden] { display: none; }
+}

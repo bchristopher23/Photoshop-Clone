@@ -1,0 +1,268 @@
+@use '../tokens' as *;
+@use '../mixins' as *;
+
+// ── Global form-control defaults ────────────────────────────────────────────
+// Standalone text/number inputs and selects (i.e., those not scoped inside a
+// `.field` wrapper) get a compact tokenized baseline.
+input[type="text"]:not(.layer-row-name),
+input[type="number"]:not(.opacity-value-input),
+select {
+  min-width: 0;
+  min-height: 30px;
+  padding: 0 $space-4;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $bg-input;
+  color: $fg;
+}
+
+// Global range-input appearance. Per-field overrides (inspector `.field`)
+// can still bump accent-color/layout as needed.
+input[type="range"] {
+  width: 100%;
+  accent-color: $accent;
+}
+
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+// ── Base button (inspector actions, dialogs) ────────────────────────────────
+.panel-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+  padding: $space-3 $space-5;
+
+  &.is-triple { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  &.panel-actions--icons { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  button {
+    @include button-control(28px, $space-4);
+    min-width: 0;
+    gap: $space-2;
+    line-height: 1.15;
+    white-space: normal;
+
+    .icon {
+      width: 13px;
+      height: 13px;
+    }
+
+    &.is-active {
+      background: $bg-active;
+      border-color: $border-2;
+      color: $fg;
+    }
+  }
+}
+
+// ── Form fields (labeled inputs in the inspector) ──────────────────────────
+.field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  min-width: 0;
+  column-gap: $space-4;
+  row-gap: 3px;
+  padding: $space-3 $space-5;
+  font-size: 13px;
+
+  > span:first-child {
+    color: $fg-2;
+    grid-column: 1 / -1;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 12px;
+    font-weight: $fw-bold;
+  }
+
+  input, select {
+    width: 100%;
+    min-width: 0;
+    height: 24px;
+    background: $bg-input;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
+    color: $fg;
+    padding: 0 $space-3;
+    font: inherit;
+    outline: 0;
+    &:focus { border-color: $accent; }
+  }
+  input[type="range"] {
+    width: 100%;
+    height: 24px;
+    accent-color: $accent;
+    background: transparent;
+    padding: 0;
+  }
+  input[type="color"] {
+    width: $h-control-md;
+    height: $h-control-md;
+    padding: 0;
+  }
+  strong {
+    color: $fg;
+    font-weight: $fw-bold;
+    font-variant-numeric: tabular-nums;
+    grid-column: 2 / 3;
+    font-size: 12px;
+  }
+}
+
+.field-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-4;
+}
+
+.field-state {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  padding: 0 $space-3;
+  border: 1px solid rgba(255, 196, 92, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 196, 92, 0.12);
+  color: $mixed-fg;
+  font-size: $fs-xs;
+  font-weight: $fw-bold;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+// Paint fields (color picker + transparent toggle).
+.paint-field {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.paint-field input[type="color"] {
+  width: 56px;
+  height: $h-control-md + 8px;
+  padding: 0;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: transparent;
+  flex: 0 0 auto;
+}
+
+.paint-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-3;
+  min-height: 32px;
+  padding: 0 $space-4;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $bg-panel-2;
+  color: $fg-2;
+  cursor: pointer;
+  font-size: 13px;
+  min-width: 0;
+}
+
+.paint-toggle input { margin: 0; }
+
+.paint-toggle:has(input:checked) {
+  border-color: $border-2;
+  background: $bg-hover;
+  color: $fg;
+}
+
+.paint-field.is-mixed input[type="color"],
+input[type="number"].is-mixed {
+  border-color: rgba(255, 196, 92, 0.38);
+  box-shadow: inset 0 0 0 1px rgba(255, 196, 92, 0.14);
+}
+
+.paint-toggle.is-mixed {
+  border-color: rgba(255, 196, 92, 0.38);
+  background: rgba(255, 196, 92, 0.08);
+  color: $mixed-fg-soft;
+}
+
+// Color preview variant.
+.field--color {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.field--color input {
+  width: 62px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: transparent;
+}
+
+// ── Mini fields (small X/Y/W/H style inputs in inspector Transform section) ──
+.mini-field {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  gap: $space-2;
+  font-size: 13px;
+  color: $fg-2;
+
+  span {
+    flex: 0 0 18px;
+    font-size: 12px;
+    color: $fg-2;
+  }
+
+  input {
+    flex: 1 1 0;
+    min-width: 50px;
+    height: 24px;
+    width: 100%;
+    background: $bg-input;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
+    color: $fg;
+    padding: 0 $space-3;
+    font: inherit;
+    font-variant-numeric: tabular-nums;
+    outline: 0;
+    &:focus { border-color: $accent; }
+  }
+}
+
+// Stats grid (e.g., inspector Document section with Width/Height/Zoom/Selection).
+.stats-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: $space-4;
+  row-gap: $space-2;
+  padding: $space-3 $space-5;
+  font-size: 12px;
+  color: $fg-2;
+  strong {
+    color: $fg;
+    font-weight: $fw-bold;
+    font-variant-numeric: tabular-nums;
+    justify-self: end;
+  }
+}
+
+// Transform grid wraps before mini fields are narrow enough to clip.
+.transform-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  gap: 5px;
+  padding: $space-3 $space-5;
+}

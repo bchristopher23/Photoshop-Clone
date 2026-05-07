@@ -1,0 +1,55 @@
+@use '../tokens' as *;
+@use '../mixins' as *;
+
+.context-menu {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  min-width: 180px;
+  height: auto;
+  background: $bg-chrome;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  box-shadow: $shadow-menu;
+  padding: $space-1 0;
+  color: $fg;
+  font-size: $fs-sm;
+  line-height: 1.2;
+  z-index: 200;
+
+  &[hidden] { display: none; }
+}
+
+// Applied to both `.context-menu-item` (new) and any bare `<button>` inside a
+// `.context-menu` (current markup uses plain buttons).
+.context-menu-item,
+.context-menu > button {
+  @include button-reset;
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  width: 100%;
+  min-height: $h-menu-item;
+  text-align: left;
+  padding: 0 $space-5;
+  color: $fg;
+  font-size: $fs-sm;
+  line-height: 1.2;
+
+  &:hover:not([disabled]) { background: $bg-hover; }
+  &[disabled] { opacity: 0.4; cursor: not-allowed; }
+}
+
+.context-menu-shortcut {
+  margin-left: auto;
+  color: $fg-3;
+  font-size: $fs-xs;
+  font-variant-numeric: tabular-nums;
+}
+
+.context-menu-divider {
+  height: 1px;
+  background: $border;
+  margin: $space-1 0;
+}

@@ -1,0 +1,261 @@
+@use '../tokens' as *;
+@use '../mixins' as *;
+
+// ── App dialog (div-based modal used by the app) ────────────────────────────
+
+.app-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: $space-8;
+
+  &[hidden] { display: none; }
+}
+
+.app-dialog-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.app-dialog-panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+  width: min(440px, calc(100vw - 40px));
+  max-height: calc(100vh - 40px);
+  padding: $space-6;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  background: $bg-chrome;
+  color: $fg;
+  box-shadow: $shadow-menu;
+  overflow: auto;
+  font-size: $fs-sm;
+
+  &[data-kind="error"] {
+    border-color: $error-border;
+  }
+}
+
+.app-dialog-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $space-4;
+}
+
+.app-dialog-heading {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  min-width: 0;
+}
+
+.app-dialog-title {
+  margin: 0;
+  font-size: $fs-lg;
+  font-weight: $fw-bold;
+  color: $fg;
+}
+
+.app-dialog-message {
+  margin: 0;
+  color: $fg-2;
+  font-size: $fs-sm;
+  line-height: 1.45;
+  white-space: pre-wrap;
+
+  &[hidden] { display: none; }
+}
+
+.app-dialog-close {
+  @include icon-button(24px);
+  color: $fg-2;
+  background: transparent;
+  &:hover { color: $fg; background: $bg-hover; }
+}
+
+.app-dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+  min-height: 0;
+}
+
+.app-dialog-fields {
+  display: grid;
+  gap: $space-4;
+}
+
+.app-dialog-fields--split {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.app-dialog-field {
+  display: grid;
+  gap: $space-2;
+
+  &[hidden] { display: none !important; }
+
+  span {
+    color: $fg-2;
+    font-size: $fs-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: $fw-bold;
+  }
+
+  input, textarea, select {
+    width: 100%;
+    height: $h-control-md;
+    background: $bg-input;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
+    color: $fg;
+    padding: 0 $space-3;
+    font: inherit;
+    outline: 0;
+    &:focus { border-color: $accent; }
+  }
+  textarea {
+    height: auto;
+    min-height: 64px;
+    padding: $space-3;
+  }
+}
+
+.app-dialog-field--checkbox {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+
+  span {
+    color: $fg;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: $fs-sm;
+    font-weight: $fw-normal;
+  }
+
+  input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+  }
+}
+
+.app-dialog-field-hint {
+  color: $fg-2;
+  font-size: $fs-xs;
+  line-height: 1.4;
+}
+
+.app-dialog-error {
+  margin: 0;
+  padding: $space-4 $space-5;
+  border: 1px solid $error-chrome;
+  border-radius: $radius-sm;
+  background: rgba(112, 46, 46, 0.25);
+  color: $error-fg;
+  font-size: $fs-sm;
+  line-height: 1.35;
+
+  &[hidden] { display: none; }
+}
+
+.app-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-3;
+
+  button {
+    @include button-control($h-button-md, $space-6);
+    &[hidden] { display: none; }
+  }
+
+  // Last button = primary confirm (type="submit")
+  button[type="submit"],
+  button.is-primary {
+    @include primary-button($h-button-md, $space-6);
+  }
+
+  // Destructive confirm/extra buttons (e.g., Delete, Discard, Overwrite).
+  button.is-danger {
+    border-color: $danger;
+    color: $danger;
+  }
+}
+
+// New-document dialog variant — two-column layout with preset browser on left.
+.app-dialog-panel[data-kind="new-document"] {
+  width: min(1080px, calc(100vw - 40px));
+
+  .app-dialog-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 312px;
+    gap: $space-5 $space-7;
+    align-items: start;
+  }
+
+  .app-dialog-fields {
+    display: contents;
+  }
+
+  .new-document-browser {
+    grid-column: 1;
+    grid-row: 1 / span 8;
+    display: flex;
+    flex-direction: column;
+    gap: $space-5;
+    align-content: start;
+    min-height: 100%;
+    padding-right: $space-5;
+  }
+
+  .app-dialog-field,
+  .app-dialog-error,
+  .app-dialog-actions {
+    grid-column: 2;
+  }
+
+  .app-dialog-actions {
+    width: 100%;
+  }
+}
+
+.app-dialog-panel[data-kind="shortcuts"] {
+  width: min(520px, calc(100vw - 40px));
+
+  .app-dialog-message {
+    color: $fg;
+    font-size: $fs-base;
+    line-height: 1.65;
+  }
+}
+
+.new-document-browser-header {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.new-document-browser-title {
+  margin: 0;
+  color: $fg;
+  font-size: $fs-lg;
+  font-weight: $fw-bold;
+}
+
+.new-document-browser-hint {
+  margin: 0;
+  color: $fg-2;
+  font-size: $fs-sm;
+  line-height: 1.5;
+}
+
+body.has-dialog { overflow: hidden; }

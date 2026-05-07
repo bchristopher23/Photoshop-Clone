@@ -1,0 +1,41 @@
+@use '../tokens' as *;
+
+.status-bar {
+  background: $bg-chrome;
+  border-top: 1px solid $border;
+  display: flex;
+  align-items: center;
+  padding: 0 $space-5;
+  gap: $space-7 - $space-1;         // 14px
+  font-size: $fs-xs;
+  color: $fg-2;
+  font-variant-numeric: tabular-nums;
+  height: $h-statusbar;
+}
+
+.status-bar-item {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  b, strong { color: $fg; font-weight: $fw-bold; }
+}
+
+.status-bar-sep {
+  width: 1px;
+  height: 10px;
+  background: $border-2;
+}
+
+.status-bar-right {
+  margin-left: auto;
+  display: flex;
+  gap: $space-6;
+  align-items: center;
+}
+
+.status-bar-dot {
+  width: 5px; height: 5px;
+  border-radius: 99px;
+  background: currentColor;
+}
+.status-bar-dot-ok { background: $success; }

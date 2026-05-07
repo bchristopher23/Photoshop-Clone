@@ -1,0 +1,264 @@
+@use '../tokens' as *;
+@use '../mixins' as *;
+
+.home-screen {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: $space-8;
+  padding: $space-8;
+  background: $bg-app;
+
+  &[hidden] { display: none; }
+}
+
+.home-screen-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  padding: $space-6;
+  background: $bg-chrome;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+}
+
+.home-screen-primary {
+  @include primary-button($h-button-md, $space-4);
+}
+
+.home-screen-link {
+  @include button-control($h-button-md, $space-4);
+  justify-content: flex-start;
+  font-size: $fs-sm;
+  text-align: left;
+}
+
+.home-screen-nav {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  margin-top: $space-5;
+}
+
+.home-screen-label {
+  color: $fg-3;
+  font-size: $fs-xs;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: $fw-bold;
+  margin: 0 0 $space-2;
+}
+
+.home-screen-nav-item {
+  @include button-reset;
+  display: inline-flex;
+  align-items: center;
+  min-height: $h-button-sm;
+  text-align: left;
+  padding: 0 $space-3;
+  border-radius: $radius-sm;
+  color: $fg-2;
+  font-size: $fs-sm;
+
+  &:hover:not([disabled]) { background: $bg-hover; color: $fg; }
+  &.is-active { background: $bg-active; color: $fg; }
+  &[disabled] { opacity: 0.4; cursor: not-allowed; }
+}
+
+.home-screen-hint {
+  margin-top: auto;
+  padding: $space-4;
+  background: $bg-panel;
+  border-radius: $radius-sm;
+  color: $fg-2;
+  font-size: $fs-xs;
+  line-height: 1.5;
+  p { margin: 0; }
+}
+
+.home-screen-content {
+  display: flex;
+  flex-direction: column;
+  gap: $space-8;
+  min-width: 0;
+}
+
+.home-hero {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+.home-hero-eyebrow {
+  color: $accent;
+  font-weight: $fw-bold;
+  font-size: $fs-xs;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+.home-hero-title {
+  color: $fg;
+  font-size: 22px;
+  font-weight: $fw-bold;
+  margin: 0;
+  line-height: 1.2;
+}
+.home-hero-text {
+  color: $fg-2;
+  font-size: $fs-base;
+  margin: 0;
+  max-width: 56ch;
+}
+.home-hero-actions {
+  display: flex;
+  gap: $space-3;
+  margin-top: $space-3;
+
+  button {
+    @include button-control($h-button-lg, $space-6);
+    font-size: $fs-sm;
+
+    &:first-child {
+      @include primary-button($h-button-lg, $space-6);
+    }
+  }
+}
+
+.home-panel {
+  background: $bg-chrome;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: $space-6;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+.home-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: $space-4;
+}
+.home-panel-eyebrow {
+  color: $accent;
+  font-weight: $fw-bold;
+  font-size: $fs-xs;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 $space-1;
+}
+.home-panel-title {
+  color: $fg;
+  font-size: $fs-lg;
+  font-weight: $fw-bold;
+  margin: 0;
+}
+.home-panel-status {
+  color: $fg-2;
+  font-size: $fs-xs;
+  margin: 0;
+  max-width: 30ch;
+  text-align: right;
+}
+
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: $space-3;
+
+  button, .preset-card {
+    @include button-reset;
+    min-height: 44px;
+    padding: $space-4;
+    background: $bg-panel-2;
+    border: 1px solid $border;
+    border-radius: $radius-md;
+    color: $fg;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+    font-size: $fs-sm;
+    &:hover { background: $bg-hover; }
+    strong { font-weight: $fw-bold; }
+    span { color: $fg-2; font-size: $fs-xs; }
+  }
+}
+
+// Dialog variant — preset grid used inside the New Document dialog.
+.preset-grid--dialog {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+// Additional preset-card structure (used in both home + dialog contexts).
+.preset-card {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  min-height: 168px;
+
+  &.is-selected {
+    border-color: $accent;
+    box-shadow: inset 0 0 0 1px $accent;
+  }
+}
+
+.preset-card-preview {
+  display: grid;
+  place-items: center;
+  min-height: 82px;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $bg-panel;
+  overflow: hidden;
+}
+
+.preset-card-frame {
+  width: var(--preset-frame-width, 72px);
+  height: var(--preset-frame-height, 48px);
+  border: 2px solid rgba(255, 255, 255, 0.72);
+  border-radius: $radius-sm;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
+}
+
+.preset-card-frame.is-white {
+  background: $white;
+  border-color: rgba(0, 0, 0, 0.28);
+}
+
+.preset-card-frame.is-black {
+  background: $black;
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.preset-card-frame.is-transparent {
+  background:
+    linear-gradient(45deg, rgba(255, 255, 255, 0.18) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.18) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.18) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.18) 75%),
+    rgba(255, 255, 255, 0.05);
+  background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+  background-size: 12px 12px;
+}
+
+.preset-card-detail {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+}
+
+.preset-card-detail strong {
+  color: $fg;
+  font-size: $fs-base;
+  font-weight: $fw-bold;
+}
+
+.preset-card-detail span,
+.preset-card-detail small {
+  color: $fg-2;
+  line-height: 1.45;
+}
+
+.preset-card-detail span { font-size: $fs-sm; }
+.preset-card-detail small { font-size: $fs-xs; }

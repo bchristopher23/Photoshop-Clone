@@ -1,0 +1,14 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+.visually-hidden { @include visually-hidden; }
+
+.icon {
+  width:  $fs-lg;
+  height: $fs-lg;
+  stroke-width: 1.75;
+  flex-shrink: 0;
+}
+.icon-sm { width: $fs-sm;  height: $fs-sm; }
+.icon-md { width: 16px;    height: 16px; }
+.icon-lg { width: 20px;    height: 20px; }

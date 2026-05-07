@@ -1,0 +1,110 @@
+@use '../tokens' as *;
+@use '../mixins' as *;
+
+.contextual-bar {
+  position: absolute;
+  bottom: $space-7;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  background: $bg-chrome;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  box-shadow: $shadow-float;
+  padding: $space-2 $space-3;
+  max-width: calc(100% - #{$space-8});
+
+  &[hidden] { display: none; }
+}
+
+.contextual-bar-header {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  min-height: 22px;
+}
+
+.contextual-bar-handle {
+  @include button-reset;
+  color: $fg-3;
+  cursor: grab;
+  display: flex;
+  &:active { cursor: grabbing; }
+}
+
+.contextual-bar-header-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  strong { color: $fg; font-weight: $fw-bold; font-size: $fs-sm; }
+  span { color: $fg-2; font-size: $fs-xs; }
+}
+
+.contextual-bar-header-actions {
+  margin-left: auto;
+  display: flex;
+  gap: $space-1;
+}
+
+.contextual-bar-header-button {
+  @include button-control($h-button-sm, $space-3, transparent, $bg-hover, transparent, transparent);
+  color: $fg-2;
+  font-size: $fs-xs;
+  &:hover { color: $fg; background: $bg-hover; }
+}
+
+.contextual-bar-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-3;
+  padding-top: $space-2;
+
+  &[hidden] { display: none; }
+
+  button {
+    @include button-control($h-button-sm, $space-4);
+  }
+}
+
+.contextual-bar-field {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  color: $fg-2;
+  font-size: $fs-xs;
+
+  input[type="number"], input[type="text"], select {
+    height: $h-control-sm;
+    width: 60px;
+    background: $bg-input;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
+    color: $fg;
+    padding: 0 $space-3;
+    font: inherit;
+    outline: 0;
+    &:focus { border-color: $accent; }
+  }
+  input[type="range"] { width: 90px; accent-color: $accent; }
+  input[type="color"] { width: 24px; height: $h-control-sm; padding: 0; border: 1px solid $border; background: transparent; }
+
+  &.is-mini input { width: 50px; }
+  &.is-wide select { width: 120px; }
+  &.is-range { gap: $space-2; }
+  &.is-swatch { gap: $space-2; }
+}
+
+.contextual-bar-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 $space-3;
+  height: $h-control-sm;
+  background: $bg-input;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  color: $fg;
+  font-size: $fs-xs;
+  font-variant-numeric: tabular-nums;
+}

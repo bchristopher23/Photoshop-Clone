@@ -1,0 +1,181 @@
+@use '../tokens' as *;
+@use '../mixins' as *;
+
+.tool-rail {
+  background: $bg-chrome;
+  border-right: 1px solid $border;
+  padding: $space-2 $space-2;
+  width: $w-tool-rail;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+// 2-column grid of tool cells (the "toolbar going to two columns" change).
+.tool-rail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-1;
+  align-content: start;
+}
+
+.tool {
+  @include icon-button;
+  width: 32px;
+  height: 30px;
+  color: $fg;
+  position: relative;
+
+  .icon {
+    width: 17px;
+    height: 17px;
+  }
+
+  &.is-active {
+    background: $accent;
+    color: $white;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 1px;
+      bottom: 1px;
+      width: 0; height: 0;
+      border-left: 3px solid transparent;
+      border-top: 3px solid rgba(255, 255, 255, 0.8);
+    }
+  }
+}
+
+.tool-rail-sep {
+  grid-column: 1 / -1;
+  height: 1px;
+  background: $border;
+  margin: $space-2 $space-2 - 1px;
+}
+
+// Foreground/background color swatches — span both columns, center.
+.tool-palette {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-3 0;
+}
+
+.tool-palette-label { @include visually-hidden; }
+
+.tool-color-stack {
+  position: relative;
+  width: 52px;
+  height: 48px;
+}
+
+.tool-color {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 1px solid $fg-3;
+  box-shadow: 0 0 0 1px $bg-chrome;
+  cursor: pointer;
+  input[type="color"] { @include visually-hidden; }
+
+  &:hover {
+    border-color: $fg;
+  }
+
+  &:focus-within {
+    outline: 1px solid $accent;
+    outline-offset: 1px;
+  }
+
+  &.is-front {
+    top: 16px;
+    left: 7px;
+    z-index: 2;
+    background: var(--fg-swatch, #ff6b3d);
+  }
+
+  &.is-back {
+    top: 5px;
+    right: 7px;
+    z-index: 1;
+    background: var(--bg-swatch, #fff);
+  }
+}
+
+.tool-color-action {
+  @include button-reset;
+  position: absolute;
+  z-index: 3;
+  color: $fg-2;
+
+  &:hover {
+    color: $fg;
+  }
+
+  &:focus-visible {
+    outline: 1px solid $accent;
+    outline-offset: 1px;
+  }
+
+  &.is-swap {
+    top: 0;
+    right: -5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: $radius-sm;
+    background: $bg-chrome;
+    color: $fg;
+
+    &:hover {
+      background: $bg-hover;
+    }
+
+    .icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  &.is-default {
+    left: 1px;
+    bottom: 1px;
+    width: 15px;
+    height: 15px;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border: 1px solid $fg-3;
+    }
+
+    &::before {
+      left: 0;
+      bottom: 0;
+      background: $black;
+    }
+
+    &::after {
+      right: 0;
+      top: 0;
+      background: $white;
+    }
+  }
+}
+
+.tool-rail-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  padding-top: $space-3;
+}
+
+.tool-rail-help { position: relative; }

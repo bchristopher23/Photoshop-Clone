@@ -1,0 +1,96 @@
+@use '../tokens' as *;
+@use '../mixins' as *;
+
+.options-bar {
+  background: $bg-chrome;
+  display: flex;
+  align-items: center;
+  flex: 0 0 $h-optionsbar;
+  padding: 0 $space-3 + $space-1;   // 7px
+  gap: $space-3 - $space-1;         // 5px
+  border-bottom: 1px solid $border;
+  font-size: $fs-sm;
+  height: $h-optionsbar;
+}
+
+.options-bar-group {
+  display: flex;
+  align-items: center;
+  gap: $space-2 - 1px;              // 3px
+
+  &.is-options { flex: 1; min-width: 0; }
+  &.is-status {
+    margin-left: auto;
+    gap: $space-6;
+    color: $fg-2;
+    strong, b { color: $fg; font-weight: $fw-bold; }
+  }
+
+  // Vertical separators between groups
+  + .options-bar-group { border-left: 1px solid $border; padding-left: $space-3; }
+
+  // Bare buttons inside a group (zoom-out, fit-view, zoom-in, undo, redo, etc.)
+  // get a tokenized look so they aren't browser-default.
+  > button {
+    @include button-control($h-button-sm, $space-3, transparent, $bg-hover, transparent, transparent);
+    min-width: $h-button-sm;
+    gap: $space-2;
+  }
+}
+
+.options-bar-options {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.options-bar-options-label {
+  color: $fg-3;
+  font-weight: $fw-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: $fs-xs;
+}
+
+.tool-options {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+
+  &[hidden] { display: none; }
+  &.is-hint { color: $fg-2; font-style: italic; }
+}
+
+// Field label + input pair, used inside options bar + contextual bar.
+.toolbar-field {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  color: $fg-2;
+  font-size: $fs-sm;
+
+  input[type="number"], input[type="text"], select {
+    height: $h-control-sm;
+    background: $bg-input;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
+    color: $fg;
+    padding: 0 $space-3;
+    font: inherit;
+    font-variant-numeric: tabular-nums;
+    outline: 0;
+    &:focus { border-color: $accent; }
+  }
+
+  &.is-mini input {
+    width: 60px;
+    padding: 0 $space-2;
+  }
+  &.is-range {
+    gap: $space-3;
+    strong { color: $fg; font-variant-numeric: tabular-nums; font-weight: $fw-bold; }
+  }
+  &.is-checkbox { gap: $space-2; color: $fg; }
+}

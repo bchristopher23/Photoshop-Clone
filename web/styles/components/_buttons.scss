@@ -1,0 +1,44 @@
+@use '../tokens' as *;
+@use '../mixins' as *;
+
+// Generic button primitive used as a utility class (e.g., the layer toolbar's
+// delete-layer action). Inspector/dialog/toolbar buttons all have their own
+// scoped styles; this is the fallback for standalone `.button` elements and
+// provides the `.is-danger` / `.is-file` modifiers.
+
+.button {
+  @include button-control;
+  gap: $space-3;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+
+  &:focus-visible {
+    outline: 2px solid rgba(59, 157, 255, 0.5);
+    outline-offset: 1px;
+  }
+
+  &:disabled,
+  &:has(input:disabled) {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  // File-input wrapper — button that hosts a hidden <input type="file"> overlay.
+  &.is-file {
+    position: relative;
+    overflow: hidden;
+
+    input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+  }
+}
+
+// Destructive action modifier. Applies to any button (standalone `.button`,
+// dialog action button, or layer-toolbar button) by tinting its border/text.
+.is-danger {
+  border-color: $danger;
+  color: $danger;
+}

@@ -1,0 +1,37 @@
+// Entry point — compiled to web/styles.css by `bun run styles:build`.
+//
+// Tokens/fonts/mixins are @use-only (they don't emit rules) and are order-
+// insensitive among themselves. The remaining partials emit rules; their
+// order is the source-order in the compiled stylesheet.
+
+// Token layer and helpers — these emit :root rules + @font-face at load time,
+// but must be @use-d by downstream partials to expose $vars.
+@use 'tokens';
+@use 'fonts';
+@use 'mixins';
+
+// Foundation layers.
+@use 'reset';
+@use 'layout';
+@use 'utilities';
+
+// Components.
+@use 'components/menubar';
+@use 'components/tabbar';
+@use 'components/options-bar';
+@use 'components/tool-rail';
+@use 'components/canvas';
+@use 'components/contextual-bar';
+@use 'components/inspector';
+@use 'components/sections';
+@use 'components/history';
+@use 'components/layers';
+@use 'components/status-bar';
+@use 'components/home-screen';
+@use 'components/dialogs';
+@use 'components/context-menu';
+@use 'components/forms';
+@use 'components/buttons';
+
+// Viewport-specific overrides (kept last so they override component defaults).
+@use 'responsive';

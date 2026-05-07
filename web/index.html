@@ -1,0 +1,1040 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Photoshop MVP</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./vendor/lucide.min.js" defer></script>
+    <script src="./icons.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <nav class="topbar-menus" aria-label="Application menu">
+            <div class="menu" data-menu-root>
+              <button class="menu-link is-root" type="button" data-menu-button="file-menu" aria-haspopup="true" aria-expanded="false">File</button>
+              <div id="file-menu" class="menu-panel is-dropdown" data-menu-panel="file-menu" hidden>
+                <button id="new-doc" type="button">New</button>
+                <button id="open-image" type="button">Open Image</button>
+                <button id="open-project" type="button">Open Project</button>
+                <button id="save-project" type="button">Save Project</button>
+                <button id="save-project-as" type="button">Save Project As...</button>
+                <div class="menu-divider" role="separator"></div>
+                <button id="export-image" type="button">Export...</button>
+              </div>
+            </div>
+            <div class="menu" data-menu-root>
+              <button class="menu-link is-root" type="button" data-menu-button="edit-menu" aria-haspopup="true" aria-expanded="false">Edit</button>
+              <div id="edit-menu" class="menu-panel is-dropdown" data-menu-panel="edit-menu" hidden>
+                <button id="menu-undo" type="button">Undo</button>
+                <button id="menu-redo" type="button">Redo</button>
+                <div class="menu-divider" role="separator"></div>
+                <button id="menu-duplicate-layer" type="button">Duplicate Layer</button>
+                <button id="menu-delete-layer" type="button">Delete Layer</button>
+              </div>
+            </div>
+            <div class="menu" data-menu-root>
+              <button class="menu-link is-root" type="button" data-menu-button="image-menu" aria-haspopup="true" aria-expanded="false">Image</button>
+              <div id="image-menu" class="menu-panel is-dropdown" data-menu-panel="image-menu" hidden>
+                <button id="canvas-size" type="button">Canvas Size</button>
+                <button id="fit-canvas-layer" type="button">Fit Canvas to Active Layer</button>
+                <button id="fit-canvas-artboard" type="button">Fit Canvas to Active Artboard</button>
+                <div class="menu-divider" role="separator"></div>
+                <button id="grayscale-menu" type="button">Grayscale</button>
+                <button id="invert-menu" type="button">Invert</button>
+              </div>
+            </div>
+            <div class="menu" data-menu-root>
+              <button class="menu-link is-root" type="button" data-menu-button="layer-menu" aria-haspopup="true" aria-expanded="false">Layer</button>
+              <div id="layer-menu" class="menu-panel is-dropdown" data-menu-panel="layer-menu" hidden>
+                <button id="menu-layer-new" type="button">New Layer</button>
+                <button id="menu-layer-group" type="button">Group Selected Layers</button>
+                <button id="menu-layer-ungroup" type="button">Remove Selected From Group</button>
+                <div class="menu-divider" role="separator"></div>
+                <button id="menu-layer-mask-add" type="button">Add Layer Mask</button>
+                <button id="menu-layer-mask-edit" type="button">Edit Layer Mask</button>
+                <button id="menu-layer-mask-delete" type="button">Delete Layer Mask</button>
+                <button id="menu-layer-mask-apply" type="button">Apply Layer Mask</button>
+                <button id="menu-layer-clipping-mask" type="button">Create Clipping Mask</button>
+                <button id="menu-layer-adjustment-grayscale" type="button">Add Grayscale Adjustment</button>
+                <button id="menu-layer-adjustment-invert" type="button">Add Invert Adjustment</button>
+                <button id="menu-layer-adjustment-brightness-contrast" type="button">Add Brightness/Contrast Adjustment</button>
+                <button id="menu-layer-adjustment-hue-saturation" type="button">Add Hue/Saturation Adjustment</button>
+                <div class="menu-divider" role="separator"></div>
+                <button id="menu-layer-duplicate" type="button">Duplicate Layer</button>
+                <button id="menu-layer-delete" type="button">Delete Layer</button>
+                <div class="menu-divider" role="separator"></div>
+                <button id="menu-layer-up" type="button">Bring Forward</button>
+                <button id="menu-layer-down" type="button">Send Backward</button>
+                <div class="menu-divider" role="separator"></div>
+                <button id="menu-layer-flip-horizontal" type="button">Flip Horizontal</button>
+                <button id="menu-layer-flip-vertical" type="button">Flip Vertical</button>
+              </div>
+            </div>
+            <div class="menu" data-menu-root>
+              <button class="menu-link is-root" type="button" data-menu-button="type-menu" aria-haspopup="true" aria-expanded="false">Type</button>
+              <div id="type-menu" class="menu-panel is-dropdown" data-menu-panel="type-menu" hidden>
+                <button id="menu-type-new" type="button">Add Text Layer</button>
+                <button id="menu-type-edit" type="button">Edit Text</button>
+                <div class="menu-divider" role="separator"></div>
+                <button id="menu-type-align-left" type="button">Align Left</button>
+                <button id="menu-type-align-center" type="button">Align Center</button>
+                <button id="menu-type-align-right" type="button">Align Right</button>
+              </div>
+            </div>
+            <div class="menu" data-menu-root>
+              <button class="menu-link is-root" type="button" data-menu-button="select-menu" aria-haspopup="true" aria-expanded="false">Select</button>
+              <div id="select-menu" class="menu-panel is-dropdown" data-menu-panel="select-menu" hidden>
+                <button id="menu-select-all" type="button">Select All</button>
+                <button id="menu-select-none" type="button">Deselect</button>
+                <div class="menu-divider" role="separator"></div>
+                <button id="menu-select-fill" type="button">Fill Selection</button>
+                <button id="menu-select-clear" type="button">Clear Selection</button>
+                <button id="menu-select-crop" type="button">Use Selection for Crop</button>
+              </div>
+            </div>
+            <div class="menu" data-menu-root>
+              <button class="menu-link is-root" type="button" data-menu-button="view-menu" aria-haspopup="true" aria-expanded="false">View</button>
+              <div id="view-menu" class="menu-panel is-dropdown" data-menu-panel="view-menu" hidden>
+                <button id="menu-zoom-in" type="button">Zoom In</button>
+                <button id="menu-zoom-out" type="button">Zoom Out</button>
+                <button id="menu-fit-view" type="button">Fit on Screen</button>
+                <button id="menu-reset-view" type="button">Reset View</button>
+              </div>
+            </div>
+            <div class="menu" data-menu-root>
+              <button class="menu-link is-root" type="button" data-menu-button="window-menu" aria-haspopup="true" aria-expanded="false">Window</button>
+              <div id="window-menu" class="menu-panel is-dropdown" data-menu-panel="window-menu" hidden>
+                <button type="button" class="menu-toggle" data-window-panel-toggle="document">
+                  <span>Document</span>
+                  <span class="menu-toggle-mode" aria-hidden="true">Pinned</span>
+                </button>
+                <button type="button" class="menu-toggle" data-window-panel-toggle="transform">
+                  <span>Transform</span>
+                  <span class="menu-toggle-mode" aria-hidden="true">Auto</span>
+                </button>
+                <button type="button" class="menu-toggle" data-window-panel-toggle="brush">
+                  <span>Brush</span>
+                  <span class="menu-toggle-mode" aria-hidden="true">Auto</span>
+                </button>
+                <button type="button" class="menu-toggle" data-window-panel-toggle="vector">
+                  <span>Vector</span>
+                  <span class="menu-toggle-mode" aria-hidden="true">Auto</span>
+                </button>
+                <button type="button" class="menu-toggle" data-window-panel-toggle="text">
+                  <span>Text</span>
+                  <span class="menu-toggle-mode" aria-hidden="true">Auto</span>
+                </button>
+                <button type="button" class="menu-toggle" data-window-panel-toggle="shape">
+                  <span>Shape</span>
+                  <span class="menu-toggle-mode" aria-hidden="true">Auto</span>
+                </button>
+                <div class="menu-divider" role="separator"></div>
+                <button id="window-contextual-bar-toggle" type="button">Hide Contextual Task Bar</button>
+                <button id="window-contextual-bar-reset" type="button">Reset Contextual Task Bar Position</button>
+                <div class="menu-divider" role="separator"></div>
+                <button id="window-panels-reset" type="button">Reset Panels</button>
+              </div>
+            </div>
+            <div class="menu" data-menu-root>
+              <button class="menu-link is-root" type="button" data-menu-button="help-menu" aria-haspopup="true" aria-expanded="false">Help</button>
+              <div id="help-menu" class="menu-panel is-dropdown" data-menu-panel="help-menu" hidden>
+                <button id="menu-help-shortcuts" type="button">Keyboard Shortcuts</button>
+                <button id="menu-help-about" type="button">About Photoshop</button>
+              </div>
+            </div>
+        </nav>
+        <input
+          id="file-input"
+          type="file"
+          accept="image/png,image/jpeg,image/webp,image/avif,image/svg+xml,.png,.jpg,.jpeg,.webp,.avif,.svg"
+          hidden
+        >
+        <select id="export-format" class="visually-hidden" aria-label="Export format">
+          <option value="png">PNG</option>
+          <option value="jpg">JPG</option>
+          <option value="webp">WebP</option>
+          <option value="avif">AVIF</option>
+          <option value="svg">SVG</option>
+        </select>
+        <input id="project-input" type="file" accept=".raster,application/json" hidden>
+      </header>
+
+      <section id="home-screen" class="home-screen">
+        <aside class="home-screen-sidebar" aria-label="Start actions">
+          <button id="home-new-doc" class="home-screen-primary" type="button">New file</button>
+          <button id="home-open-image" class="home-screen-link" type="button">Open image</button>
+          <button id="home-open-project" class="home-screen-link" type="button">Open project</button>
+
+          <div class="home-screen-nav">
+            <p class="home-screen-label">Start</p>
+            <button class="home-screen-nav-item is-active" type="button">Home</button>
+            <button class="home-screen-nav-item" type="button" disabled>Recent</button>
+            <button class="home-screen-nav-item" type="button" disabled>Presets</button>
+          </div>
+
+          <div class="home-screen-hint">
+            <p>Open an image to begin editing right away, or start from a preset sized for screen, social, and print work.</p>
+          </div>
+        </aside>
+
+        <div class="home-screen-content">
+          <header class="home-hero">
+            <p class="home-hero-eyebrow">Welcome</p>
+            <h1 class="home-hero-title">Start a new Photoshop document</h1>
+            <p class="home-hero-text">Choose a common canvas size, open an image, or use the current clipboard image dimensions when the browser allows it.</p>
+            <div class="home-hero-actions">
+              <button id="home-primary-new" type="button">New file</button>
+              <button id="home-primary-open-image" type="button">Open image</button>
+              <button id="home-primary-open-project" type="button">Open project</button>
+            </div>
+          </header>
+
+          <section class="home-panel" aria-labelledby="home-presets-title">
+            <div class="home-panel-header">
+              <div>
+                <p class="home-panel-eyebrow">Presets</p>
+                <h2 id="home-presets-title" class="home-panel-title">Common document sizes</h2>
+              </div>
+              <p id="home-presets-status" class="home-panel-status">Clipboard sizing appears when supported.</p>
+            </div>
+            <div id="home-presets" class="preset-grid" aria-label="New document presets"></div>
+          </section>
+        </div>
+      </section>
+
+      <div id="app-main" class="app-main" hidden>
+        <aside class="tool-rail" aria-label="Tools">
+          <div class="tool-rail-grid">
+            <button class="tool" data-tool="move" type="button" title="Pan (H)" aria-label="Pan (H)">
+              <i data-lucide="move" class="icon icon-md"></i>
+            </button>
+            <button class="tool is-active" data-tool="transform" type="button" title="Transform (V)" aria-label="Transform (V)">
+              <i data-lucide="square-dashed-mouse-pointer" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="direct" type="button" title="Direct Select (A)" aria-label="Direct Select (A)">
+              <i data-lucide="mouse-pointer-2" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="select" type="button" title="Marquee (M)" aria-label="Marquee (M)">
+              <i data-lucide="square-dashed" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="crop" type="button" title="Crop (C)" aria-label="Crop (C)">
+              <i data-lucide="crop" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="zoom" type="button" title="Zoom (Z)" aria-label="Zoom (Z)">
+              <i data-lucide="zoom-in" class="icon icon-md"></i>
+            </button>
+            <div class="tool-rail-sep" aria-hidden="true"></div>
+            <button class="tool" data-tool="text" type="button" title="Text (T)" aria-label="Text (T)">
+              <i data-lucide="type" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="pen" type="button" title="Pen (P)" aria-label="Pen (P)">
+              <i data-lucide="pen-tool" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="shape" type="button" title="Shape (U)" aria-label="Shape (U)">
+              <i data-lucide="shapes" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="line" type="button" title="Line (Y)" aria-label="Line (Y)">
+              <i data-lucide="slash" class="icon icon-md"></i>
+            </button>
+            <div class="tool-rail-sep" aria-hidden="true"></div>
+            <button class="tool" data-tool="eyedropper" type="button" title="Eyedropper (I)" aria-label="Eyedropper (I)">
+              <i data-lucide="pipette" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="bucket" type="button" title="Paint Bucket (G)" aria-label="Paint Bucket (G)">
+              <i data-lucide="paint-bucket" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="gradient" type="button" title="Gradient (L)" aria-label="Gradient (L)">
+              <i data-lucide="blend" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="color-range" type="button" title="Color Range (W)" aria-label="Color Range (W)">
+              <i data-lucide="palette" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="magic-wand" type="button" title="Magic Wand (K)" aria-label="Magic Wand (K)">
+              <i data-lucide="wand-sparkles" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="lasso" type="button" title="Lasso (S)" aria-label="Lasso (S)">
+              <i data-lucide="lasso" class="icon icon-md"></i>
+            </button>
+            <div class="tool-rail-sep" aria-hidden="true"></div>
+            <button class="tool" data-tool="brush" type="button" title="Brush (B)" aria-label="Brush (B)">
+              <i data-lucide="brush" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="eraser" type="button" title="Eraser (E)" aria-label="Eraser (E)">
+              <i data-lucide="eraser" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="magic-eraser" type="button" title="Magic Eraser (J)" aria-label="Magic Eraser (J)">
+              <i data-lucide="eraser" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="pencil" type="button" title="Pencil (N)" aria-label="Pencil (N)">
+              <i data-lucide="pencil" class="icon icon-md"></i>
+            </button>
+            <div class="tool-rail-sep" aria-hidden="true"></div>
+            <button class="tool" data-tool="artboard" type="button" title="Artboard (Q)" aria-label="Artboard (Q)">
+              <i data-lucide="frame" class="icon icon-md"></i>
+            </button>
+            <button class="tool" data-tool="ruler" type="button" title="Ruler (R)" aria-label="Ruler (R)">
+              <i data-lucide="ruler" class="icon icon-md"></i>
+            </button>
+            <div class="tool-palette">
+              <span class="tool-palette-label">Color</span>
+              <div class="tool-color-stack" aria-label="Foreground and background colors">
+                <label class="tool-color is-back" title="Background color">
+                  <input id="background-color" type="color" value="#ffffff" aria-label="Background color">
+                </label>
+                <label class="tool-color is-front" title="Foreground color">
+                  <input id="brush-color" type="color" value="#ff6b3d" aria-label="Foreground color">
+                </label>
+                <button id="swap-colors" class="tool-color-action is-swap" type="button" title="Swap foreground and background colors" aria-label="Swap foreground and background colors">
+                  <i data-lucide="arrow-left-right" class="icon icon-sm"></i>
+                </button>
+                <button id="reset-colors" class="tool-color-action is-default" type="button" title="Default foreground and background colors" aria-label="Default foreground and background colors"></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-rail-footer">
+            <div class="tool-rail-help">
+              <button
+                id="toolbar-help-shortcuts"
+                class="tool is-help"
+                type="button"
+                aria-label="Keyboard Shortcuts"
+              >
+                <i data-lucide="circle-help" class="icon icon-md"></i>
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <section class="workspace">
+          <div class="options-bar">
+            <div class="options-bar-group">
+              <button id="undo" type="button">Undo</button>
+              <button id="redo" type="button">Redo</button>
+            </div>
+            <div class="options-bar-group is-options">
+              <div class="options-bar-options" aria-label="Tool options">
+                <span id="tool-options-label" class="options-bar-options-label">Transform</span>
+
+                <div class="tool-options is-hint" data-tool-options="move" hidden>
+                  <span>Drag in the canvas to pan.</span>
+                </div>
+
+                <div class="tool-options" data-tool-options="transform direct" hidden>
+                  <label class="toolbar-field is-mini">
+                    <span>X</span>
+                    <input id="options-transform-x" data-options-transform-field="x" type="number" step="1" inputmode="numeric">
+                  </label>
+                  <label class="toolbar-field is-mini">
+                    <span>Y</span>
+                    <input id="options-transform-y" data-options-transform-field="y" type="number" step="1" inputmode="numeric">
+                  </label>
+                  <label class="toolbar-field is-mini">
+                    <span>W</span>
+                    <input id="options-transform-width" data-options-transform-field="width" type="number" min="1" step="1" inputmode="numeric">
+                  </label>
+                  <label class="toolbar-field is-mini">
+                    <span>H</span>
+                    <input id="options-transform-height" data-options-transform-field="height" type="number" min="1" step="1" inputmode="numeric">
+                  </label>
+                  <label class="toolbar-field is-mini">
+                    <span>Rot</span>
+                    <input id="options-transform-rotation" data-options-transform-field="rotation" type="number" step="1" inputmode="numeric">
+                  </label>
+                </div>
+
+                <div class="tool-options" data-tool-options="brush eraser pencil" hidden>
+                  <label class="toolbar-field is-range">
+                    <span>Size</span>
+                    <input id="options-brush-size" type="range" min="1" max="120" step="1" value="24">
+                    <strong id="options-brush-size-value">24 px</strong>
+                  </label>
+                  <label class="toolbar-field is-range">
+                    <span>Opacity</span>
+                    <input id="options-brush-opacity" type="range" min="1" max="100" step="1" value="100">
+                    <strong id="options-brush-opacity-value">100%</strong>
+                  </label>
+                </div>
+
+                <div class="tool-options" data-tool-options="text" hidden>
+                  <label class="toolbar-field">
+                    <span>Font</span>
+                    <select id="options-text-font-family">
+                      <option value="Inter, &quot;Segoe UI&quot;, sans-serif">Inter</option>
+                      <option value="Arial, sans-serif">Arial</option>
+                      <option value="Georgia, serif">Georgia</option>
+                      <option value="&quot;Courier New&quot;, monospace">Courier New</option>
+                    </select>
+                  </label>
+                  <label class="toolbar-field is-mini">
+                    <span>Size</span>
+                    <input id="options-text-font-size" type="number" min="8" max="320" step="1" value="48" inputmode="numeric">
+                  </label>
+                  <label class="toolbar-field">
+                    <span>Align</span>
+                    <select id="options-text-align">
+                      <option value="left">Left</option>
+                      <option value="center">Center</option>
+                      <option value="right">Right</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="tool-options" data-tool-options="pen" hidden>
+                  <button id="options-pen-finish" type="button">Finish Path</button>
+                  <button id="options-pen-close" type="button">Close Path</button>
+                  <span>Click to add points. Enter finishes. Click the first point to close.</span>
+                </div>
+
+                <div class="tool-options" data-tool-options="shape line" hidden>
+                  <label class="toolbar-field">
+                    <span>Shape</span>
+                    <select id="options-shape-type">
+                      <option value="rectangle">Rectangle</option>
+                      <option value="outline-rectangle">Outline Rectangle</option>
+                      <option value="ellipse">Ellipse</option>
+                      <option value="triangle">Triangle</option>
+                      <option value="line">Line</option>
+                      <option value="arrow">Arrow</option>
+                      <option value="callout">Callout Text</option>
+                    </select>
+                  </label>
+                  <label class="toolbar-field is-mini">
+                    <span>Stroke</span>
+                    <input id="options-shape-stroke-width" type="number" min="1" max="48" step="1" value="6" inputmode="numeric">
+                  </label>
+                  <label class="toolbar-field is-range">
+                    <span>Opacity</span>
+                    <input id="options-shape-opacity" type="range" min="1" max="100" step="1" value="100">
+                    <strong id="options-shape-opacity-value">100%</strong>
+                  </label>
+                </div>
+
+                <div class="tool-options" data-tool-options="select lasso" hidden>
+                  <label id="options-selection-shape-field" class="toolbar-field">
+                    <span>Mode</span>
+                    <select id="options-selection-shape">
+                      <option value="rectangle">Rectangle</option>
+                      <option value="ellipse">Ellipse</option>
+                    </select>
+                  </label>
+                  <button id="options-fill-selection" type="button">Fill</button>
+                  <button id="options-clear-selection" type="button">Clear</button>
+                </div>
+
+                <div class="tool-options" data-tool-options="crop" hidden>
+                  <button id="options-apply-crop" type="button">Apply Crop</button>
+                  <button id="options-cancel-crop" type="button">Cancel</button>
+                </div>
+
+                <div class="tool-options is-hint" data-tool-options="zoom" hidden>
+                  <span>Click to zoom in. Alt-click to zoom out.</span>
+                </div>
+
+                <div class="tool-options" data-tool-options="artboard" hidden>
+                  <button id="options-fit-canvas-layer" type="button">Fit Canvas to Layer</button>
+                  <button id="options-fit-canvas-artboard" type="button">Fit Canvas to Artboard</button>
+                  <button id="options-delete-artboard" type="button">Delete Artboard</button>
+                </div>
+
+                <div class="tool-options is-hint" data-tool-options="eyedropper" hidden>
+                  <span>Click the canvas to sample the foreground color.</span>
+                </div>
+
+                <div class="tool-options" data-tool-options="bucket color-range magic-wand magic-eraser" hidden>
+                  <label class="toolbar-field is-range">
+                    <span>Tolerance</span>
+                    <input id="options-region-tolerance" type="range" min="0" max="255" step="1" value="32">
+                    <strong id="options-region-tolerance-value">32</strong>
+                  </label>
+                  <label class="toolbar-field is-checkbox">
+                    <input id="options-region-contiguous" type="checkbox" checked>
+                    <span>Contiguous</span>
+                  </label>
+                </div>
+
+                <div class="tool-options" data-tool-options="gradient" hidden>
+                  <label class="toolbar-field">
+                    <span>Type</span>
+                    <select id="options-gradient-type">
+                      <option value="linear">Linear</option>
+                      <option value="radial">Radial</option>
+                    </select>
+                  </label>
+                  <span>Drag from the start color toward the end color.</span>
+                </div>
+
+                <div class="tool-options" data-tool-options="ruler" hidden>
+                  <button id="options-ruler-clear" type="button">Clear Measure</button>
+                  <span id="options-ruler-value">Drag on the canvas to measure distance and angle.</span>
+                </div>
+
+                <div class="tool-options is-hint" data-tool-options="artboard" hidden>
+                  <span>Click a visible layer to create or update an artboard around it.</span>
+                </div>
+              </div>
+            </div>
+            <div class="options-bar-group">
+              <button id="zoom-out" type="button"><i data-lucide="minus" class="icon"></i></button>
+              <button id="fit-view" type="button">Fit</button>
+              <button id="zoom-in" type="button"><i data-lucide="plus" class="icon"></i></button>
+            </div>
+          </div>
+
+          <div id="project-tabs" class="project-tabs" aria-label="Open projects" hidden></div>
+
+          <div id="stage" class="workspace-stage" tabindex="0">
+            <canvas id="viewport" aria-label="Editing canvas"></canvas>
+            <textarea id="text-editor" class="text-editor" hidden spellcheck="false"></textarea>
+            <div id="contextual-bar" class="contextual-bar" hidden>
+              <div class="contextual-bar-header">
+                <button id="contextual-bar-handle" class="contextual-bar-handle" type="button" aria-label="Drag contextual task bar" title="Drag to pin this bar">
+                  <i data-lucide="grip-vertical" class="icon icon-sm"></i>
+                </button>
+                <div class="contextual-bar-header-copy">
+                  <strong id="contextual-bar-title">Layer</strong>
+                  <span id="contextual-bar-subtitle">Quick actions</span>
+                </div>
+                <div class="contextual-bar-header-actions">
+                  <button id="contextual-bar-pin" class="contextual-bar-header-button" type="button">Pin</button>
+                  <button id="contextual-bar-close" class="contextual-bar-header-button" type="button">Hide</button>
+                </div>
+              </div>
+              <div class="contextual-bar-section" data-contextual-section="raster" hidden>
+                <label class="contextual-bar-field is-mini">
+                  <span>W</span>
+                  <input id="contextual-raster-width" data-contextual-transform-field="width" type="number" min="1" step="1" inputmode="numeric">
+                </label>
+                <label class="contextual-bar-field is-mini">
+                  <span>H</span>
+                  <input id="contextual-raster-height" data-contextual-transform-field="height" type="number" min="1" step="1" inputmode="numeric">
+                </label>
+                <label class="contextual-bar-field is-range">
+                  <span>Opacity <strong id="contextual-raster-opacity-value">100%</strong></span>
+                  <input id="contextual-raster-opacity" type="range" min="0" max="100" step="1" value="100">
+                </label>
+                <button id="contextual-raster-rotate-left" type="button">Rotate L</button>
+                <button id="contextual-raster-rotate-right" type="button">Rotate R</button>
+                <button id="contextual-raster-duplicate" type="button">Duplicate</button>
+                <button id="contextual-raster-fit-canvas" type="button">Fit Canvas</button>
+              </div>
+              <div class="contextual-bar-section" data-contextual-section="text" hidden>
+                <label class="contextual-bar-field is-wide">
+                  <span>Font</span>
+                  <select id="contextual-text-font-family">
+                    <option value="Inter, &quot;Segoe UI&quot;, sans-serif">Inter</option>
+                    <option value="Arial, sans-serif">Arial</option>
+                    <option value="Georgia, serif">Georgia</option>
+                    <option value="&quot;Courier New&quot;, monospace">Courier New</option>
+                  </select>
+                </label>
+                <label class="contextual-bar-field is-mini">
+                  <span>Size</span>
+                  <input id="contextual-text-font-size" type="number" min="8" max="320" step="1" inputmode="numeric">
+                </label>
+                <label class="contextual-bar-field is-mini">
+                  <span>Align</span>
+                  <select id="contextual-text-align">
+                    <option value="left">Left</option>
+                    <option value="center">Center</option>
+                    <option value="right">Right</option>
+                  </select>
+                </label>
+                <label class="contextual-bar-field is-swatch">
+                  <span>Color</span>
+                  <input id="contextual-text-color" type="color" value="#000000" aria-label="Text color">
+                </label>
+                <button id="contextual-text-edit" type="button">Edit Text</button>
+                <button id="contextual-text-duplicate" type="button">Duplicate</button>
+              </div>
+              <div class="contextual-bar-section" data-contextual-section="vector" hidden>
+                <label class="contextual-bar-field is-swatch">
+                  <span>Fill</span>
+                  <input id="contextual-vector-fill" type="color" value="#000000" aria-label="Vector fill color">
+                </label>
+                <label class="contextual-bar-field is-swatch">
+                  <span>Stroke</span>
+                  <input id="contextual-vector-stroke" type="color" value="#000000" aria-label="Vector stroke color">
+                </label>
+                <label class="contextual-bar-field is-mini">
+                  <span>Width</span>
+                  <input id="contextual-vector-stroke-width" type="number" min="0" max="24" step="1" inputmode="numeric">
+                </label>
+                <button id="contextual-vector-edit-path" type="button">Edit Path</button>
+                <button id="contextual-vector-duplicate" type="button">Duplicate</button>
+              </div>
+              <div class="contextual-bar-section" data-contextual-section="selection" hidden>
+                <button id="contextual-selection-fill" type="button">Fill</button>
+                <button id="contextual-selection-clear" type="button">Clear</button>
+                <button id="contextual-selection-crop" type="button">Crop</button>
+                <button id="contextual-selection-deselect" type="button">Deselect</button>
+              </div>
+              <div class="contextual-bar-section" data-contextual-section="crop" hidden>
+                <span id="contextual-crop-size" class="contextual-bar-chip">0 x 0 px</span>
+                <button id="contextual-crop-apply" type="button">Apply Crop</button>
+                <button id="contextual-crop-cancel" type="button">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div id="inspector-resize-handle" class="inspector-resize-handle" role="separator" aria-orientation="vertical" aria-label="Resize right pane"></div>
+        <aside class="inspector">
+          <div class="inspector-tabs" role="tablist">
+            <button class="inspector-tab is-active" type="button" data-inspector-tab="properties" role="tab" aria-selected="true">Properties</button>
+            <div class="inspector-tabs-spacer" aria-hidden="true"></div>
+          </div>
+          <div class="inspector-panels">
+            <div class="dock-panel" data-inspector-panel="properties">
+              <div class="dock-panel-header property-bar">
+                <span class="property-bar-tag">
+                  <i data-lucide="file" class="icon icon-sm"></i>
+                  Document
+                </span>
+              </div>
+              <section class="panel-section" data-inspector-section="document">
+                <button class="panel-section-toggle" type="button" data-inspector-toggle="document" aria-expanded="true">
+                  <span class="panel-section-toggle-title">Canvas</span>
+                  <span class="panel-section-toggle-icon" aria-hidden="true"><i data-lucide="chevron-down" class="icon icon-sm"></i></span>
+                </button>
+                <div class="stats-grid">
+                  <span>Width</span>
+                  <strong id="stat-width">0 px</strong>
+                  <span>Height</span>
+                  <strong id="stat-height">0 px</strong>
+                  <span>Zoom</span>
+                  <strong id="stat-zoom">100%</strong>
+                  <span>Selection</span>
+                  <strong id="stat-selection">None</strong>
+                </div>
+                <div class="panel-actions">
+                  <button id="crop-selection" type="button">Apply Crop</button>
+                  <button id="clear-selection" type="button">Clear Area</button>
+                  <button id="grayscale" type="button">Grayscale</button>
+                  <button id="invert" type="button">Invert</button>
+                  <button id="reset-view" type="button">Reset View</button>
+                </div>
+              </section>
+
+              <section class="panel-section" data-inspector-section="rulers">
+                <button class="panel-section-toggle" type="button" data-inspector-toggle="rulers" aria-expanded="true">
+                  <span class="panel-section-toggle-title">Rulers &amp; Grids</span>
+                  <span class="panel-section-toggle-icon" aria-hidden="true"><i data-lucide="chevron-down" class="icon icon-sm"></i></span>
+                </button>
+                <div class="panel-actions panel-actions--icons">
+                  <button type="button" title="Rulers" aria-label="Rulers" aria-pressed="false" data-panel-toggle="rulers"><i data-lucide="ruler" class="icon icon-sm"></i></button>
+                  <button type="button" title="Grid" aria-label="Grid" aria-pressed="false" data-panel-toggle="grid"><i data-lucide="grid-3x3" class="icon icon-sm"></i></button>
+                  <button type="button" title="Snap" aria-label="Snap" aria-pressed="true" data-panel-toggle="snap"><i data-lucide="magnet" class="icon icon-sm"></i></button>
+                </div>
+              </section>
+
+              <section class="panel-section" data-inspector-section="guides">
+                <button class="panel-section-toggle" type="button" data-inspector-toggle="guides" aria-expanded="true">
+                  <span class="panel-section-toggle-title">Guides</span>
+                  <span class="panel-section-toggle-icon" aria-hidden="true"><i data-lucide="chevron-down" class="icon icon-sm"></i></span>
+                </button>
+                <div class="panel-actions panel-actions--icons">
+                  <button type="button" title="Columns" aria-label="Columns" aria-pressed="false" data-panel-toggle="guideColumns"><i data-lucide="columns-2" class="icon icon-sm"></i></button>
+                  <button type="button" title="Rows" aria-label="Rows" aria-pressed="false" data-panel-toggle="guideRows"><i data-lucide="rows-2" class="icon icon-sm"></i></button>
+                  <button type="button" title="Frame Guides" aria-label="Frame Guides" aria-pressed="false" data-panel-toggle="guideFrame"><i data-lucide="frame" class="icon icon-sm"></i></button>
+                </div>
+              </section>
+
+              <section class="panel-section" data-inspector-section="quick-actions">
+                <button class="panel-section-toggle" type="button" data-inspector-toggle="quick-actions" aria-expanded="true">
+                  <span class="panel-section-toggle-title">Quick Actions</span>
+                  <span class="panel-section-toggle-icon" aria-hidden="true"><i data-lucide="chevron-down" class="icon icon-sm"></i></span>
+                </button>
+                <div class="panel-actions">
+                  <button type="button" id="properties-image-size">Image Size</button>
+                  <button type="button" id="properties-crop">Crop</button>
+                </div>
+              </section>
+
+              <section class="panel-section" data-inspector-section="transform">
+                <button class="panel-section-toggle" type="button" data-inspector-toggle="transform" aria-expanded="true">
+                  <span class="panel-section-toggle-copy">
+                    <span class="panel-section-toggle-title">Transform</span>
+                    <strong id="transform-layer-name" class="panel-section-toggle-meta">None</strong>
+                  </span>
+                  <span class="panel-section-toggle-icon" aria-hidden="true"><i data-lucide="chevron-down" class="icon icon-sm"></i></span>
+                </button>
+                <div class="transform-grid">
+                  <label class="mini-field">
+                    <span>X</span>
+                    <input id="transform-x" data-transform-field="x" type="number" step="1" inputmode="numeric">
+                  </label>
+                  <label class="mini-field">
+                    <span>Y</span>
+                    <input id="transform-y" data-transform-field="y" type="number" step="1" inputmode="numeric">
+                  </label>
+                  <label class="mini-field">
+                    <span>W</span>
+                    <input id="transform-width" data-transform-field="width" type="number" min="1" step="1" inputmode="numeric">
+                  </label>
+                  <label class="mini-field">
+                    <span>H</span>
+                    <input id="transform-height" data-transform-field="height" type="number" min="1" step="1" inputmode="numeric">
+                  </label>
+                  <label class="mini-field">
+                    <span>Rot</span>
+                    <input id="transform-rotation" data-transform-field="rotation" type="number" step="1" inputmode="numeric">
+                  </label>
+                </div>
+                <div class="panel-actions">
+                  <button id="rotate-left" type="button">Rotate L</button>
+                  <button id="rotate-right" type="button">Rotate R</button>
+                  <button id="flip-horizontal" type="button">Flip H</button>
+                  <button id="flip-vertical" type="button">Flip V</button>
+                </div>
+                <div class="panel-actions is-triple">
+                  <button id="align-left" type="button">Left</button>
+                  <button id="align-center-x" type="button">Center X</button>
+                  <button id="align-right" type="button">Right</button>
+                  <button id="align-top" type="button">Top</button>
+                  <button id="align-center-y" type="button">Center Y</button>
+                  <button id="align-bottom" type="button">Bottom</button>
+                </div>
+              </section>
+            </div>
+
+            <div class="dock-panel" data-inspector-panel="contextual" hidden>
+              <div class="dock-panel-header property-bar">
+                <span class="property-bar-tag">
+                  <i data-lucide="sliders-horizontal" class="icon icon-sm"></i>
+                  Context
+                </span>
+              </div>
+              <section class="panel-section" data-inspector-section="brush">
+                <button class="panel-section-toggle" type="button" data-inspector-toggle="brush" aria-expanded="true">
+                  <span class="panel-section-toggle-title">Brush</span>
+                  <span class="panel-section-toggle-icon" aria-hidden="true"><i data-lucide="chevron-down" class="icon icon-sm"></i></span>
+                </button>
+                <label class="field">
+                  <span>Size</span>
+                  <input id="brush-size" type="range" min="1" max="120" step="1" value="24">
+                  <strong id="brush-size-value">24 px</strong>
+                </label>
+                <label class="field">
+                  <span>Opacity</span>
+                  <input id="brush-opacity" type="range" min="1" max="100" step="1" value="100">
+                  <strong id="brush-opacity-value">100%</strong>
+                </label>
+                <label class="field">
+                  <span>Foreground</span>
+                  <input id="brush-color-value" type="text" value="rgba(255, 107, 61, 1)" spellcheck="false">
+                </label>
+              </section>
+
+              <section class="panel-section" data-inspector-section="adjustment">
+                <button class="panel-section-toggle" type="button" data-inspector-toggle="adjustment" aria-expanded="true">
+                  <span class="panel-section-toggle-title">Adjustment</span>
+                  <span class="panel-section-toggle-icon" aria-hidden="true"><i data-lucide="chevron-down" class="icon icon-sm"></i></span>
+                </button>
+                <div class="stats-grid">
+                  <span>Type</span>
+                  <strong id="adjustment-type-label">None</strong>
+                </div>
+                <label class="field" data-adjustment-control="brightness">
+                  <span>Brightness</span>
+                  <input id="adjustment-brightness" data-adjustment-setting="brightness" type="range" min="-100" max="100" step="1" value="0">
+                  <strong id="adjustment-brightness-value">0%</strong>
+                </label>
+                <label class="field" data-adjustment-control="contrast">
+                  <span>Contrast</span>
+                  <input id="adjustment-contrast" data-adjustment-setting="contrast" type="range" min="-100" max="100" step="1" value="0">
+                  <strong id="adjustment-contrast-value">0%</strong>
+                </label>
+                <label class="field" data-adjustment-control="hue">
+                  <span>Hue</span>
+                  <input id="adjustment-hue" data-adjustment-setting="hue" type="range" min="-180" max="180" step="1" value="0">
+                  <strong id="adjustment-hue-value">0°</strong>
+                </label>
+                <label class="field" data-adjustment-control="saturation">
+                  <span>Saturation</span>
+                  <input id="adjustment-saturation" data-adjustment-setting="saturation" type="range" min="-100" max="100" step="1" value="0">
+                  <strong id="adjustment-saturation-value">0%</strong>
+                </label>
+              </section>
+
+              <section class="panel-section" data-inspector-section="vector">
+                <button class="panel-section-toggle" type="button" data-inspector-toggle="vector" aria-expanded="true">
+                  <span class="panel-section-toggle-title">Vector</span>
+                  <span class="panel-section-toggle-icon" aria-hidden="true"><i data-lucide="chevron-down" class="icon icon-sm"></i></span>
+                </button>
+                <div class="field">
+                  <span class="field-label">Fill <strong id="vector-fill-state" class="field-state" hidden>Mixed</strong></span>
+                  <div class="paint-field">
+                    <input id="vector-fill-value" type="color" value="#000000" aria-label="Vector fill color">
+                    <label class="paint-toggle" for="vector-fill-transparent">
+                      <input id="vector-fill-transparent" type="checkbox">
+                      <span>None</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="field">
+                  <span class="field-label">Stroke <strong id="vector-stroke-state" class="field-state" hidden>Mixed</strong></span>
+                  <div class="paint-field">
+                    <input id="vector-stroke-value" type="color" value="#000000" aria-label="Vector stroke color">
+                    <label class="paint-toggle" for="vector-stroke-transparent">
+                      <input id="vector-stroke-transparent" type="checkbox">
+                      <span>None</span>
+                    </label>
+                  </div>
+                </div>
+                <label class="field">
+                  <span class="field-label">Stroke Width <strong id="vector-stroke-width-state" class="field-state" hidden>Mixed</strong></span>
+                  <input id="vector-stroke-width" type="number" min="0" max="24" step="1" value="0" inputmode="numeric">
+                </label>
+              </section>
+
+              <section class="panel-section" data-inspector-section="text">
+                <button class="panel-section-toggle" type="button" data-inspector-toggle="text" aria-expanded="true">
+                  <span class="panel-section-toggle-title">Text</span>
+                  <span class="panel-section-toggle-icon" aria-hidden="true"><i data-lucide="chevron-down" class="icon icon-sm"></i></span>
+                </button>
+                <label class="field">
+                  <span>Font</span>
+                  <select id="text-font-family">
+                    <option value="Inter, &quot;Segoe UI&quot;, sans-serif">Inter</option>
+                    <option value="Arial, sans-serif">Arial</option>
+                    <option value="Georgia, serif">Georgia</option>
+                    <option value="&quot;Courier New&quot;, monospace">Courier New</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>Weight</span>
+                  <select id="text-font-weight">
+                    <option value="300">Light</option>
+                    <option value="400">Regular</option>
+                    <option value="500">Medium</option>
+                    <option value="600">Semi Bold</option>
+                    <option value="700">Bold</option>
+                    <option value="800">Extra Bold</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>Text Size</span>
+                  <input id="text-font-size" type="number" min="8" max="320" step="1" value="48" inputmode="numeric">
+                </label>
+                <label class="field">
+                  <span>Line Spacing</span>
+                  <input id="text-line-height" type="number" min="0.8" max="3" step="0.05" value="1.2" inputmode="decimal">
+                </label>
+                <label class="field">
+                  <span>Text Fill</span>
+                  <input id="text-color-value" type="text" value="rgba(255, 107, 61, 1)" spellcheck="false">
+                </label>
+                <label class="field">
+                  <span>Text Outline</span>
+                  <input id="text-stroke-value" type="text" value="transparent" spellcheck="false">
+                </label>
+                <label class="field">
+                  <span>Outline Width</span>
+                  <input id="text-stroke-width" type="number" min="0" max="24" step="1" value="0" inputmode="numeric">
+                </label>
+                <label class="field">
+                  <span>Text Background</span>
+                  <input id="text-background-value" type="text" value="transparent" spellcheck="false">
+                </label>
+                <label class="field">
+                  <span>Text Align</span>
+                  <select id="text-align">
+                    <option value="left">Left</option>
+                    <option value="center">Center</option>
+                    <option value="right">Right</option>
+                  </select>
+                </label>
+              </section>
+
+              <section class="panel-section" data-inspector-section="shape">
+                <button class="panel-section-toggle" type="button" data-inspector-toggle="shape" aria-expanded="true">
+                  <span class="panel-section-toggle-title">Shape</span>
+                  <span class="panel-section-toggle-icon" aria-hidden="true"><i data-lucide="chevron-down" class="icon icon-sm"></i></span>
+                </button>
+                <label class="field">
+                  <span>Shape</span>
+                  <select id="shape-type">
+                    <option value="rectangle">Rectangle</option>
+                    <option value="outline-rectangle">Outline Rectangle</option>
+                    <option value="ellipse">Ellipse</option>
+                    <option value="triangle">Triangle</option>
+                    <option value="line">Line</option>
+                    <option value="arrow">Arrow</option>
+                    <option value="callout">Callout Text</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>Stroke Width</span>
+                  <input id="shape-stroke-width" type="number" min="1" max="48" step="1" value="6" inputmode="numeric">
+                </label>
+              </section>
+            </div>
+          </div>
+
+          <div class="dock-panel dock-panel--history" aria-labelledby="history-panel-title">
+            <div class="history-head">
+              <span id="history-panel-title" class="history-head-title">
+                <i data-lucide="history" class="icon icon-sm"></i>
+                History
+              </span>
+              <strong id="history-count" class="history-head-count">0</strong>
+            </div>
+            <div id="history-list" class="history-list" aria-label="History states"></div>
+          </div>
+
+          <div class="dock-panel dock-panel--layers">
+            <div class="layers-head">
+              <span class="layers-head-title">Layers</span>
+              <strong id="active-layer-name" hidden>None</strong>
+              <button id="layers-more" class="layers-head-more" type="button" title="Reset layer filters" aria-label="Reset layer filters">
+                <i data-lucide="more-horizontal" class="icon icon-sm"></i>
+              </button>
+            </div>
+            <section class="panel-section panel-section--layers inspector-layers">
+              <div class="layers-tools">
+                <label class="layers-search" for="layer-search">
+                  <i data-lucide="search" class="icon icon-sm"></i>
+                  <input id="layer-search" type="search" placeholder="Find" aria-label="Find layers">
+                </label>
+                <button type="button" title="Visible layers" aria-label="Visible layers" data-layer-filter="visible"><i data-lucide="filter" class="icon icon-sm"></i></button>
+                <button type="button" title="Text layers" aria-label="Text layers" data-layer-filter="text"><i data-lucide="type" class="icon icon-sm"></i></button>
+                <button type="button" title="Shape layers" aria-label="Shape layers" data-layer-filter="vector"><i data-lucide="square" class="icon icon-sm"></i></button>
+                <button type="button" title="Ellipse layers" aria-label="Ellipse layers" data-layer-filter="ellipse"><i data-lucide="circle" class="icon icon-sm"></i></button>
+                <button type="button" title="Adjustment layers" aria-label="Adjustment layers" data-layer-filter="adjustment"><i data-lucide="sliders-horizontal" class="icon icon-sm"></i></button>
+              </div>
+              <div class="opacity-bar">
+                <select id="layer-blend-mode" class="sel" aria-label="Layer blend mode">
+                  <option value="normal">Normal</option>
+                  <option value="multiply">Multiply</option>
+                  <option value="screen">Screen</option>
+                  <option value="overlay">Overlay</option>
+                  <option value="darken">Darken</option>
+                  <option value="lighten">Lighten</option>
+                  <option value="soft-light">Soft Light</option>
+                </select>
+                <label class="opacity-value-control" for="layer-opacity">
+                  <span>Opacity:</span>
+                  <input id="layer-opacity" class="opacity-value-input" type="number" min="0" max="100" step="1" value="100" inputmode="numeric" aria-label="Layer opacity">
+                  <span class="opacity-unit" aria-hidden="true">%</span>
+                  <span id="layer-opacity-value" hidden>100%</span>
+                  <span id="layer-opacity-popover" class="opacity-popover" hidden>
+                    <input id="layer-opacity-slider" type="range" min="0" max="100" step="1" value="100" aria-label="Layer opacity slider">
+                  </span>
+                </label>
+              </div>
+              <div class="lock-bar">
+                <span>Lock:</span>
+                <button type="button" title="Lock transparent pixels" aria-label="Lock transparent pixels" aria-pressed="false" data-layer-lock="transparent"><i data-lucide="square" class="icon icon-sm"></i></button>
+                <button type="button" title="Lock image pixels" aria-label="Lock image pixels" aria-pressed="false" data-layer-lock="pixels"><i data-lucide="brush" class="icon icon-sm"></i></button>
+                <button type="button" title="Lock position" aria-label="Lock position" aria-pressed="false" data-layer-lock="position"><i data-lucide="move" class="icon icon-sm"></i></button>
+                <button type="button" title="Lock generated pixels" aria-label="Lock generated pixels" aria-pressed="false" data-layer-lock="image"><i data-lucide="image" class="icon icon-sm"></i></button>
+                <button type="button" title="Lock all" aria-label="Lock all" aria-pressed="false" data-layer-lock="all"><i data-lucide="lock" class="icon icon-sm"></i></button>
+                <span class="lock-bar-spacer" aria-hidden="true"></span>
+              </div>
+              <div id="layers" class="layers"></div>
+              <div class="layer-toolbar" aria-label="Layer actions">
+                <button id="link-layer" type="button" title="Link Layers" aria-label="Link Layers">
+                  <i data-lucide="link-2" class="icon icon-sm"></i>
+                </button>
+                <button id="layer-style" type="button" title="Layer Style" aria-label="Layer Style">
+                  <i data-lucide="function-square" class="icon icon-sm"></i>
+                </button>
+                <button id="layer-mask" type="button" title="Layer Mask" aria-label="Layer Mask">
+                  <i data-lucide="rectangle-circle" class="icon icon-sm"></i>
+                </button>
+                <button id="layer-adjustment" type="button" title="Adjustment Layer" aria-label="Adjustment Layer">
+                  <i data-lucide="contrast" class="icon icon-sm"></i>
+                </button>
+                <button id="group-layer" type="button" title="Group Selected Layers" aria-label="Group Selected Layers">
+                  <i data-lucide="folder-plus" class="icon icon-sm"></i>
+                </button>
+                <button id="add-layer" type="button" title="Add Layer" aria-label="Add Layer">
+                  <i data-lucide="square-plus" class="icon icon-sm"></i>
+                </button>
+                <button id="delete-layer" type="button" class="is-danger" title="Delete Layer" aria-label="Delete Layer">
+                  <i data-lucide="trash" class="icon icon-sm"></i>
+                </button>
+                <button id="ungroup-layer" type="button" hidden title="Remove Selected From Group" aria-label="Remove Selected From Group">
+                  <i data-lucide="folder-minus" class="icon icon-sm"></i>
+                </button>
+                <button id="duplicate-layer" type="button" hidden title="Duplicate Layer" aria-label="Duplicate Layer">
+                  <i data-lucide="copy" class="icon icon-sm"></i>
+                </button>
+                <button id="move-layer-up" type="button" hidden title="Move Layer Up" aria-label="Move Layer Up">
+                  <i data-lucide="arrow-up" class="icon icon-sm"></i>
+                </button>
+                <button id="move-layer-down" type="button" hidden title="Move Layer Down" aria-label="Move Layer Down">
+                  <i data-lucide="arrow-down" class="icon icon-sm"></i>
+                </button>
+              </div>
+            </section>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="status-bar" aria-label="Status">
+        <span class="status-bar-item">
+          <span class="status-bar-dot status-bar-dot-ok" aria-hidden="true"></span>
+          <span id="status-file">Demo Scene</span>
+        </span>
+        <span class="status-bar-sep" aria-hidden="true"></span>
+        <span class="status-bar-item"><span id="status-tool">Move</span></span>
+        <span class="status-bar-sep" aria-hidden="true"></span>
+        <span class="status-bar-right">
+          <span class="status-bar-item"><b>sRGB</b> · 8-bit</span>
+          <span class="status-bar-sep" aria-hidden="true"></span>
+          <span class="status-bar-item"><b id="status-zoom">100%</b></span>
+          <span class="status-bar-sep" aria-hidden="true"></span>
+          <span class="status-bar-item" id="status-pointer">x -, y -</span>
+        </span>
+      </footer>
+    </div>
+
+    <div id="selection-menu" class="context-menu" hidden>
+      <button id="fill-selection" type="button">Fill Selection</button>
+    </div>
+
+    <div id="layer-context-menu" class="context-menu" hidden>
+      <button id="layer-bring-to-front" type="button">Bring to Front</button>
+      <button id="layer-bring-forward" type="button">Bring Forward</button>
+      <button id="layer-send-backward" type="button">Send Backward</button>
+      <button id="layer-send-to-back" type="button">Send to Back</button>
+    </div>
+
+    <div id="app-dialog" class="app-dialog" hidden>
+      <div class="app-dialog-scrim" data-dialog-dismiss></div>
+      <div
+        id="app-dialog-panel"
+        class="app-dialog-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="app-dialog-title"
+        aria-describedby="app-dialog-message"
+      >
+        <div class="app-dialog-header">
+          <div class="app-dialog-heading">
+            <h2 id="app-dialog-title" class="app-dialog-title">Dialog</h2>
+            <p id="app-dialog-message" class="app-dialog-message" hidden></p>
+          </div>
+          <button id="app-dialog-close" class="app-dialog-close" type="button" aria-label="Close dialog">
+            <i data-lucide="x" class="icon icon-sm"></i>
+          </button>
+        </div>
+        <form id="app-dialog-form" class="app-dialog-form" novalidate>
+          <div id="app-dialog-fields" class="app-dialog-fields"></div>
+          <p id="app-dialog-error" class="app-dialog-error" hidden></p>
+          <div class="app-dialog-actions">
+            <button id="app-dialog-extra" type="button" hidden>Extra</button>
+            <button id="app-dialog-cancel" type="button">Cancel</button>
+            <button id="app-dialog-confirm" type="submit">OK</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,462 @@
+@use '../tokens' as *;
+@use '../mixins' as *;
+
+// Layers dock-panel container. Stacked vertically: header, list, toolbar footer.
+.dock-panel--layers {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+// The .panel-section that hosts the layers list — override the generic section
+// so it becomes a flex column that fills the dock-panel.
+.panel-section--layers {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.inspector-layers {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  flex: 1;
+  background: $bg-panel;
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// Layer controls
+// ────────────────────────────────────────────────────────────────────────
+
+.layers-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-3 $space-5;
+  border-bottom: 1px solid $border;
+  background: $bg-chrome;
+}
+
+.layers-head-title {
+  font-weight: $fw-bold;
+  font-size: 13px;
+  color: $fg;
+}
+
+.layers-head-more {
+  @include icon-button(24px);
+  color: $fg-2;
+
+  .icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  &.is-active {
+    color: $fg;
+    background: $bg-hover;
+  }
+
+  &[disabled] {
+    cursor: default;
+    opacity: 0.45;
+  }
+}
+
+.layers-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  align-items: center;
+  padding: 6px $space-5;
+  border-bottom: 1px solid $border;
+  background: $bg-chrome;
+}
+
+.layers-tools button {
+  @include icon-button(24px);
+  color: $fg-2;
+
+  .icon {
+    width: 13px;
+    height: 13px;
+  }
+
+  &:hover,
+  &.is-active {
+    color: $fg;
+    background: $bg-hover;
+  }
+}
+
+.layers-tools .layers-search {
+  display: inline-flex;
+  align-items: center;
+  width: auto;
+  flex: 1 1 72px;
+  min-width: 62px;
+  justify-content: flex-start;
+  gap: $space-2;
+  padding: 0 $space-3;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $bg-input;
+  color: $fg-2;
+  font-size: 12px;
+  min-height: 24px;
+}
+
+.layers-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: $fg;
+  font: inherit;
+  outline: 0;
+
+  &::placeholder {
+    color: $fg-2;
+    opacity: 1;
+  }
+}
+
+.opacity-bar,
+.lock-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-2 $space-5;
+  border-bottom: 1px solid $border;
+  background: $bg-chrome;
+  color: $fg-2;
+  font-size: 13px;
+}
+
+.opacity-bar .sel {
+  flex: 1;
+  min-width: 0;
+  height: 24px;
+  min-height: 24px;
+  padding: 0 $space-3;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $bg-input;
+  color: $fg;
+  font: inherit;
+}
+
+.opacity-value-control {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  position: relative;
+  min-width: 0;
+}
+
+.opacity-value-control input {
+  width: 34px;
+  min-height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: $fg;
+  font: inherit;
+  font-weight: $fw-bold;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  outline: 0;
+}
+
+.opacity-value-control input:focus {
+  background: $bg-input;
+  outline: 1px solid $accent;
+  outline-offset: 1px;
+}
+
+.opacity-popover {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 5px);
+  z-index: 12;
+  width: 154px;
+  padding: $space-3 $space-4;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $bg-chrome;
+  box-shadow: $shadow-menu;
+}
+
+.opacity-popover input[type="range"] {
+  display: block;
+  width: 100%;
+  min-height: $h-control-sm;
+  accent-color: $accent;
+}
+
+.opacity-unit,
+.lock-bar strong {
+  color: $fg;
+  font-weight: $fw-bold;
+  font-variant-numeric: tabular-nums;
+}
+
+.lock-bar button {
+  @include icon-button(22px);
+  color: $fg-2;
+
+  .icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  &:hover,
+  &.is-active,
+  &.is-mixed {
+    color: $fg;
+    background: $bg-active;
+  }
+}
+
+.lock-bar-spacer {
+  flex: 1;
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// Layer list
+// ────────────────────────────────────────────────────────────────────────
+
+.layers {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: $bg-panel;
+}
+
+.layer-row {
+  display: grid;
+  grid-template-columns: 20px 30px minmax(0, 1fr) 16px;
+  gap: 7px;
+  align-items: center;
+  min-height: 31px;
+  padding: $space-2 $space-5;
+  border-bottom: 1px solid $border;
+  box-sizing: border-box;
+  color: $fg;
+  cursor: pointer;
+  font-size: 13px;
+
+  &:hover {
+    background: $bg-hover;
+  }
+}
+
+.layer-row--group {
+  grid-template-columns: 16px 20px 30px minmax(0, 1fr) 16px;
+}
+
+.layer-row--nested {
+  padding-left: $space-8;
+}
+
+.layer-row.is-selected {
+  background: $bg-active;
+}
+
+.layer-row.is-selected .layer-row-name {
+  color: $white;
+}
+
+.layer-row.is-selected-partial {
+  background: rgba(59, 130, 196, 0.12);
+}
+
+.layer-row.is-editing-mask .layer-row-thumb {
+  border-color: rgba(226, 192, 92, 0.65);
+}
+
+.layer-row.is-clipped .layer-row-thumb {
+  border-color: rgba(96, 184, 255, 0.52);
+}
+
+.layer-row.is-effectively-hidden .layer-row-thumb,
+.layer-row.is-effectively-hidden .layer-row-body {
+  opacity: 0.56;
+}
+
+.layer-row--drop-before,
+.layer-row--drop-after {
+  position: relative;
+}
+
+.layer-row--drop-before::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 2px;
+  background: $accent;
+  box-shadow: 0 0 0 1px rgba(79, 179, 255, 0.18);
+}
+
+.layer-row--drop-after::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: $accent;
+  box-shadow: 0 0 0 1px rgba(79, 179, 255, 0.18);
+}
+
+.layer-row-collapse,
+.layer-row-visibility {
+  @include icon-button(20px);
+  color: $fg-2;
+
+  .icon {
+    width: 13px;
+    height: 13px;
+  }
+
+  &:hover {
+    color: $fg;
+  }
+}
+
+.layer-row-visibility {
+  color: $fg;
+
+  &.is-hidden {
+    color: $fg-3;
+  }
+}
+
+.layer-row-thumb {
+  @include button-reset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  min-width: 30px;
+  height: 22px;
+  min-height: 22px;
+  padding: 0;
+  border: 1px solid $border;
+  background: $bg-input;
+  color: $fg-2;
+
+  .icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.layer-row-thumb--group {
+  color: $fg;
+}
+
+.layer-row-thumb canvas {
+  display: block;
+  width: 28px;
+  height: 20px;
+}
+
+.layer-row-body {
+  display: grid;
+  gap: $space-1;
+  min-width: 0;
+}
+
+.layer-row-name {
+  width: 100%;
+  min-width: 0;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: $fg;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: $fw-normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:focus {
+    background: $bg-input;
+    outline: 1px solid $accent;
+    outline-offset: -1px;
+  }
+}
+
+.layer-row-meta {
+  color: $fg-2;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.layer-row-lock {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: $fg-3;
+
+  .icon {
+    width: 11px;
+    height: 11px;
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// Layer toolbar
+// ────────────────────────────────────────────────────────────────────────
+
+.layer-toolbar {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  justify-content: stretch;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-3 $space-4;
+  border-top: 1px solid $border;
+  background: $bg-chrome;
+}
+
+.layer-toolbar button {
+  @include button-control(30px, 0, transparent, $bg-hover, transparent, transparent, $fg-2);
+  min-width: 0;
+  width: auto;
+
+  .icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  &:hover,
+  &:focus-visible,
+  &.is-active {
+    background: $bg-hover;
+    color: $fg;
+  }
+}
+
+.layer-toolbar button.is-danger {
+  color: $fg-2;
+
+  &:hover,
+  &:focus-visible {
+    color: $fg;
+  }
+}

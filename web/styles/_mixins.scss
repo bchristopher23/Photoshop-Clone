@@ -1,0 +1,97 @@
+@use 'tokens' as *;
+
+// Reset the UA appearance on a button and give it a flat, chromeless baseline.
+// Components can then layer on padding, colors, and radius.
+@mixin button-reset {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+  &:focus { outline: none; }
+  &:focus-visible { outline: 1px solid $accent; outline-offset: 1px; }
+}
+
+@mixin button-control(
+  $height: $h-button-md,
+  $padding-x: $space-5,
+  $background: $bg-panel-2,
+  $hover-background: $bg-hover,
+  $border-color: $border,
+  $hover-border-color: $border,
+  $color: $fg
+) {
+  @include button-reset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  min-height: $height;
+  padding: 0 $padding-x;
+  border-color: $border-color;
+  border-radius: $radius-sm;
+  background: $background;
+  color: $color;
+  font-size: $fs-sm;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+
+  &:hover:not([disabled]) {
+    background: $hover-background;
+    border-color: $hover-border-color;
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+}
+
+@mixin primary-button($height: $h-button-md, $padding-x: $space-6) {
+  @include button-control(
+    $height,
+    $padding-x,
+    $accent,
+    $accent-hover,
+    $border,
+    $border,
+    $white
+  );
+}
+
+// A standard 28x26 icon-only button (tool rail cells, layer-footer icons, etc).
+@mixin icon-button($size: 22px) {
+  @include button-reset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width:  $size;
+  height: $size;
+  border-radius: $radius-sm;
+  color: $fg;
+  &:hover { background: $bg-hover; }
+}
+
+// Panel surface (inspector sections, menubar, toolbar chrome).
+@mixin panel-surface {
+  background: $bg-chrome;
+  color: $fg;
+  border-bottom: 1px solid $border;
+}
+
+// Visually-hidden without breaking layout flow for screen readers.
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+// Marching-ants animation for selections (used by marquee + contextual outlines).
+@keyframes marching-ants {
+  to { background-position: 12px 0; }
+}

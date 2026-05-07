@@ -1,0 +1,77 @@
+@use '../tokens' as *;
+@use '../mixins' as *;
+
+.topbar {
+  @include panel-surface;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 $space-2;
+  font-size: $fs-base;
+  height: $h-menubar;
+}
+
+.topbar-menus {
+  display: flex;
+  align-items: center;
+}
+
+// A "menu" wraps each root menu button + its dropdown panel.
+.menu {
+  position: relative;
+  display: inline-block;
+}
+
+.menu-link {
+  @include button-reset;
+  padding: $space-1 $space-3;
+  color: $fg;
+  border-radius: $radius-sm;
+  cursor: default;
+  line-height: calc($h-menubar - 2 * $space-1);
+  &:hover { background: $bg-hover; }
+
+  &.is-root { /* currently no extra styling; hook for future */ }
+  &.is-open { background: $bg-hover; }
+}
+
+.menu-panel {
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 0;
+  min-width: 220px;
+  background: $bg-chrome;
+  border: 1px solid $border;
+  box-shadow: $shadow-menu;
+  padding: $space-1 0;
+  z-index: 20;
+
+  &[hidden] { display: none; }
+
+  button {
+    @include button-control($h-menu-item, $space-5, transparent, $bg-hover, transparent, transparent);
+    width: 100%;
+    text-align: left;
+    justify-content: flex-start;
+  }
+}
+
+.menu-divider {
+  height: 1px;
+  background: $border;
+  margin: $space-1 0;
+}
+
+.menu-toggle {
+  @include button-control($h-menu-item, $space-5, transparent, $bg-hover, transparent, transparent);
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.menu-toggle-mode {
+  color: $fg-3;
+  font-size: $fs-xs;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}

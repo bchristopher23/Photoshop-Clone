@@ -1,0 +1,40 @@
+@use 'tokens' as *;
+
+// Narrow-viewport adjustments. Kept in a single partial so the mobile layout
+// rules for multiple components live in one predictable place rather than
+// being sprinkled through each component file.
+
+@media (max-width: 700px) {
+  .home-screen-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid $border;
+  }
+
+  .home-screen-content {
+    padding: $space-8 - 4px;
+  }
+
+  .preset-grid--dialog {
+    grid-template-columns: 1fr;
+  }
+
+  .app-dialog-panel[data-kind="new-document"] .app-dialog-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .app-dialog-panel[data-kind="new-document"] .app-dialog-form {
+    grid-template-columns: 1fr;
+  }
+
+  .app-dialog-panel[data-kind="new-document"] .new-document-browser,
+  .app-dialog-panel[data-kind="new-document"] .app-dialog-field,
+  .app-dialog-panel[data-kind="new-document"] .app-dialog-error,
+  .app-dialog-panel[data-kind="new-document"] .app-dialog-actions {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .app-dialog-fields--split {
+    grid-template-columns: 1fr;
+  }
+}
