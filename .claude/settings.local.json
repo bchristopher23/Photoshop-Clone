@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun add *)",
+      "Bash(mkdir -p /home/brady/repos/ps-clone/web/fonts)",
+      "Bash(cp /home/brady/repos/ps-clone/node_modules/@fontsource/montserrat/files/montserrat-latin-500-normal.woff2 /home/brady/repos/ps-clone/web/fonts/Montserrat-Medium.woff2)",
+      "Bash(cp /home/brady/repos/ps-clone/node_modules/@fontsource/montserrat/files/montserrat-latin-600-normal.woff2 /home/brady/repos/ps-clone/web/fonts/Montserrat-SemiBold.woff2)",
+      "Bash(mkdir -p /home/brady/repos/ps-clone/web/vendor)",
+      "Bash(cp /home/brady/repos/ps-clone/node_modules/lucide/dist/umd/lucide.min.js /home/brady/repos/ps-clone/web/vendor/lucide.min.js)",
+      "Bash(bunx sass *)",
+      "Bash(echo \"Exit: $?\")",
+      "Bash(bun run *)"
+    ]
+  }
+}
